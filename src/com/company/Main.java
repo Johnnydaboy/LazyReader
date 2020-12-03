@@ -24,7 +24,6 @@ public class Main {
         IWord word = dict.getWord(wordID);
         System.out.println("Gloss = " + word.getSynset().getGloss());
 
-        // get synonyms
         getSynonyms(dict, "aphorist");
     }
 
