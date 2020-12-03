@@ -1,0 +1,4 @@
+[ZoneTransfer]
+ZoneId=3
+ReferrerUrl=https://www.apache.org/
+HostUrl=https://apache.claz.org/opennlp/models/langdetect/1.8.3/langdetect-183.bin

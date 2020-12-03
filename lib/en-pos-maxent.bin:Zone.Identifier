@@ -1,0 +1,4 @@
+[ZoneTransfer]
+ZoneId=3
+ReferrerUrl=http://opennlp.sourceforge.net/models-1.5/
+HostUrl=http://opennlp.sourceforge.net/models-1.5/en-pos-maxent.bin

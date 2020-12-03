@@ -14,7 +14,7 @@ public class Main {
         dict.open();
         WordnetStemmer stemmer = new WordnetStemmer(dict);
 
-        List<String> test = stemmer.findStems("feet", null);
+        List<String> test = stemmer.findStems("boots", null);
         for (int i = 0; i < test.size(); i++) {
             System.out.println(test.get(i));
         }
