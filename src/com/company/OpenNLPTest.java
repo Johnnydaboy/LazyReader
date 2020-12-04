@@ -29,20 +29,12 @@ public class OpenNLPTest {
         //Generating tags 
         String[] tags = tagger.tag(tokens);
 
-        //Simplifying tags into primary POS identifiers 
-        for (int i = 0; i < tags.length; i++){
-            tags[i] = tags[i].substring(0,1);
-        }
-        
-        // Word and POS Identifier placed into map- can be returned for reference later
-        // LinkedHashMap keeps order of elements inserted into Map 
-        Map<String, String> POSIdentifier = new LinkedHashMap<>();
-        for (int i = 0; i < tokens.length; i++){
-            POSIdentifier.put(tokens[i], tags[i]);
-        }
 
-        // Prints word and corresponding simplified POS 
-        print(POSIdentifier);
+        // Building word and POS relationship 
+        Map<String, String> POSSentence = wordPOSCreator(tokens, tags);
+
+        // Prints word and corresponding POS
+        print(POSSentence);
 
         // Instantiating the POSSample class
         POSSample sample = new POSSample(tokens, tags);
@@ -55,5 +47,16 @@ public class OpenNLPTest {
             System.out.println(key + ", " + words.get(key));
             
         }
+    }
+
+    // Word and POS Identifier placed into a map
+    // Simplifies POS tag to "N", "A", "V", "D", etc. 
+    // LinkedHashMap keeps order of elements inserted into Map 
+    public static Map<String, String> wordPOSCreator (String[] tokens, String[] tags) {
+        Map<String, String> POSIdentifier = new LinkedHashMap<>();
+        for (int i = 0; i < tokens.length; i++){
+            POSIdentifier.put(tokens[i], tags[i].substring(0,1));
+        }
+        return POSIdentifier; 
     }
 }
