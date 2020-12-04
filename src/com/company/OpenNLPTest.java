@@ -20,7 +20,7 @@ public class OpenNLPTest {
         //Instantiating POSTaggerME class 
         POSTaggerME tagger = new POSTaggerME(model); 
             
-        String sentence = "Hi my name is Bob, screw you"; 
+        String sentence = "This is heresey, these are complex, disturbing, terrible, teacher"; 
             
         //Tokenizing the sentence using WhitespaceTokenizer class  
         WhitespaceTokenizer whitespaceTokenizer= WhitespaceTokenizer.INSTANCE; 
@@ -30,7 +30,7 @@ public class OpenNLPTest {
         String[] tags = tagger.tag(tokens);
 
         for(int i = 0; i < tokens.length; i++) {
-            System.out.printf("%s, %s\n", tokens[i], tags[i]);
+            System.out.printf("%s %s\n", tokens[i], tags[i]);
         }
         
         //Instantiating the POSSample class
