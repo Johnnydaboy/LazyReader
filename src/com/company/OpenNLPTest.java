@@ -3,8 +3,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.*;
 
-import org.glassfish.jersey.internal.guava.HashMultimap;
-
 import opennlp.tools.postag.POSModel;
 import opennlp.tools.postag.POSSample;
 import opennlp.tools.postag.POSTaggerME;
@@ -37,18 +35,25 @@ public class OpenNLPTest {
         }
         
         // Word and POS Identifier placed into map- can be returned for reference later
-        Map<String, String> POSIdentifier = new HashMap<>();
+        // LinkedHashMap keeps order of elements inserted into Map 
+        Map<String, String> POSIdentifier = new LinkedHashMap<>();
         for (int i = 0; i < tokens.length; i++){
             POSIdentifier.put(tokens[i], tags[i]);
         }
 
-        //Printing word and corresponding simplified POS identifier 
-        for (int i = 0; i < tokens.length; i++) {
-            System.out.printf("%s, %s\n", tokens[i], tags[i]);
+        // Prints word and corresponding simplified POS 
+        print(POSIdentifier);
+
+        // Instantiating the POSSample class
+        POSSample sample = new POSSample(tokens, tags);
+        System.out.println(sample.toString());
+    }
+
+    // Prints word and corresponding simplified POS 
+    public static void print(Map<String, String> words) {
+        for (String key : words.keySet()){
+            System.out.println(key + ", " + words.get(key));
+            
         }
-        
-        //Instantiating the POSSample class
-        POSSample sample = new POSSample(tokens, tags); 
-        System.out.println(sample.toString()); 
     }
 }
