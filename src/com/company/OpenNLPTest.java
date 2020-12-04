@@ -1,8 +1,7 @@
-package com.company;
-
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.*;
 
 import opennlp.tools.postag.POSModel;
 import opennlp.tools.postag.POSSample;
@@ -13,14 +12,19 @@ public class OpenNLPTest {
     public static void main(String[] args) throws IOException {
         //Loading Parts of speech-maxent model       
         InputStream inputStream = new 
-            FileInputStream("/home/jonathanpi/Computer Science/LazyReader/LazyReader/lib/en-pos-maxent.bin");
+            //FileInputStream("/home/jonathanpi/Computer Science/LazyReader/LazyReader/lib/en-pos-maxent.bin");
+            FileInputStream("C:\\Users\\toaya\\Documents\\GitHub\\en-pos-maxent.bin");
             
         POSModel model = new POSModel(inputStream); 
             
         //Instantiating POSTaggerME class 
         POSTaggerME tagger = new POSTaggerME(model); 
             
+<<<<<<< HEAD
         String sentence = "This is heresey, these are complex, disturbing, terrible, teacher"; 
+=======
+        String sentence = "This is a test sentence!"; 
+>>>>>>> b2d71b566437cdb5ff0bf68faaed68126b2c893a
             
         //Tokenizing the sentence using WhitespaceTokenizer class  
         WhitespaceTokenizer whitespaceTokenizer= WhitespaceTokenizer.INSTANCE; 
@@ -29,12 +33,39 @@ public class OpenNLPTest {
         //Generating tags 
         String[] tags = tagger.tag(tokens);
 
+<<<<<<< HEAD
         for(int i = 0; i < tokens.length; i++) {
             System.out.printf("%s %s\n", tokens[i], tags[i]);
+=======
+
+        // Building word and POS relationship 
+        Map<String, String> POSSentence = wordPOSCreator(tokens, tags);
+
+        // Prints word and corresponding POS
+        print(POSSentence);
+
+        // Instantiating the POSSample class
+        POSSample sample = new POSSample(tokens, tags);
+        System.out.println(sample.toString());
+    }
+
+    // Prints word and corresponding simplified POS 
+    public static void print(Map<String, String> words) {
+        for (String key : words.keySet()){
+            System.out.println(key + ", " + words.get(key));
+            
+>>>>>>> b2d71b566437cdb5ff0bf68faaed68126b2c893a
         }
-        
-        //Instantiating the POSSample class
-        POSSample sample = new POSSample(tokens, tags); 
-        System.out.println(sample.toString()); 
+    }
+
+    // Word and POS Identifier placed into a map
+    // Simplifies POS tag to "N", "A", "V", "D", etc. 
+    // LinkedHashMap keeps order of elements inserted into Map 
+    public static Map<String, String> wordPOSCreator (String[] tokens, String[] tags) {
+        Map<String, String> POSCreator = new LinkedHashMap<>();
+        for (int i = 0; i < tokens.length; i++) {
+            POSCreator.put(tokens[i], tags[i].substring(0,1));
+        }
+        return POSCreator; 
     }
 }

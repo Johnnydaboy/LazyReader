@@ -1,5 +1,5 @@
 # LazyReader
-Every want to make a book easy to ready? Well now with lazy ready you can!
+Ever wanted to make a book easier to read? Well with lazy reader, now you can!
 
 ## Getting Started
 

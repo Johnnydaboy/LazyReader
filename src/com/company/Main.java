@@ -1,5 +1,3 @@
-package com.company;
-
 import edu.mit.jwi.*;
 import edu.mit.jwi.item.*;
 import edu.mit.jwi.morph.WordnetStemmer;
@@ -12,7 +10,8 @@ import java.util.List;
 public class Main {
 
     public static void main(String[] args) throws IOException {
-        Dictionary dict = new Dictionary(new File("/home/jonathanpi/Computer Science/LazyReader/LazyReader/src/dict"));
+        //Dictionary dict = new Dictionary(new File("/home/jonathanpi/Computer Science/LazyReader/LazyReader/src/dict"));
+        Dictionary dict = new Dictionary(new File("C:\\Users\\toaya\\Documents\\GitHub\\LazyReader\\src\\dict"));
         dict.open();
         IStemmer stemmer = new WordnetStemmer(dict);
 
@@ -26,7 +25,11 @@ public class Main {
         IWord word = dict.getWord(wordID);
         System.out.println("Gloss = " + word.getSynset().getGloss());
 
+<<<<<<< HEAD
         getSynonyms(dict, "teacher");
+=======
+        getSynonyms(dict, "hello");
+>>>>>>> b2d71b566437cdb5ff0bf68faaed68126b2c893a
     }
 
     public static void getSynonyms(IDictionary dict, String newWord) {
