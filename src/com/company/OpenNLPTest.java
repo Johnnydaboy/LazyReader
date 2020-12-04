@@ -1,6 +1,9 @@
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.*;
+
+import org.glassfish.jersey.internal.guava.HashMultimap;
 
 import opennlp.tools.postag.POSModel;
 import opennlp.tools.postag.POSSample;
@@ -33,6 +36,12 @@ public class OpenNLPTest {
             tags[i] = tags[i].substring(0,1);
         }
         
+        // Word and POS Identifier placed into map- can be returned for reference later
+        Map<String, String> POSIdentifier = new HashMap<>();
+        for (int i = 0; i < tokens.length; i++){
+            POSIdentifier.put(tokens[i], tags[i]);
+        }
+
         //Printing word and corresponding simplified POS identifier 
         for (int i = 0; i < tokens.length; i++) {
             System.out.printf("%s, %s\n", tokens[i], tags[i]);
