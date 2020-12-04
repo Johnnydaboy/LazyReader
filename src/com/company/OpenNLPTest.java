@@ -53,10 +53,10 @@ public class OpenNLPTest {
     // Simplifies POS tag to "N", "A", "V", "D", etc. 
     // LinkedHashMap keeps order of elements inserted into Map 
     public static Map<String, String> wordPOSCreator (String[] tokens, String[] tags) {
-        Map<String, String> POSIdentifier = new LinkedHashMap<>();
-        for (int i = 0; i < tokens.length; i++){
-            POSIdentifier.put(tokens[i], tags[i].substring(0,1));
+        Map<String, String> POSCreator = new LinkedHashMap<>();
+        for (int i = 0; i < tokens.length; i++) {
+            POSCreator.put(tokens[i], tags[i].substring(0,1));
         }
-        return POSIdentifier; 
+        return POSCreator; 
     }
 }
