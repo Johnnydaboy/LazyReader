@@ -1,5 +1,3 @@
-
-
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -30,6 +28,12 @@ public class OpenNLPTest {
         //Generating tags 
         String[] tags = tagger.tag(tokens);
 
+        //Simplifying tags into primary POS identifiers 
+        for (int i = 0; i < tags.length; i++){
+            tags[i] = tags[i].substring(0,1);
+        }
+        
+        //Printing word and corresponding simplified POS identifier 
         for (int i = 0; i < tokens.length; i++) {
             System.out.printf("%s, %s\n", tokens[i], tags[i]);
         }
