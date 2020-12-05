@@ -24,8 +24,6 @@ public class DifficultyClassifier {
         int totalWords = totalNumberWords(wordFile);
         int varX = totalWords / 9;
         int varXRemainder = totalWords % 9; 
-        System.out.println(varX);
-        System.out.println(varXRemainder);
 
         File file = new File(wordFile);
         Scanner sc = new Scanner(file); 
@@ -54,7 +52,6 @@ public class DifficultyClassifier {
             wordCount++; 
             sc.nextLine();
         }
-        System.out.println(wordCount);
         sc.close();
         return wordCount; 
     }
