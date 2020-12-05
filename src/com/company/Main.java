@@ -1,3 +1,5 @@
+package com.company;
+
 import edu.mit.jwi.*;
 import edu.mit.jwi.item.*;
 import edu.mit.jwi.morph.WordnetStemmer;
@@ -25,11 +27,7 @@ public class Main {
         IWord word = dict.getWord(wordID);
         System.out.println("Gloss = " + word.getSynset().getGloss());
 
-<<<<<<< HEAD
         getSynonyms(dict, "teacher");
-=======
-        getSynonyms(dict, "hello");
->>>>>>> b2d71b566437cdb5ff0bf68faaed68126b2c893a
     }
 
     public static void getSynonyms(IDictionary dict, String newWord) {
