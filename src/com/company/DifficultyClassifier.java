@@ -33,9 +33,8 @@ public class DifficultyClassifier {
             levelCount[i] = (int) (Math.pow(2.0, i + 1) * varX);
             wordCount += levelCount[i];
             if(i == 8){
-                levelCount[i] = levelCount[i] + (totalWords - wordCount); ;
+                levelCount[i] += (totalWords - wordCount); ;
             }
-            System.out.println(levelCount[i]);
         }
 
         for(int i = 0; i < 9; i++){
