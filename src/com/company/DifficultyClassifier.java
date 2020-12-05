@@ -11,7 +11,7 @@ public class DifficultyClassifier {
         String wordFileLocation = "C:\\Users\\toaya\\Documents\\GitHub\\LazyReader\\mostFreqWords.txt";
         Map<String, Integer> cWords = new TreeMap<>();
         cWords = classifyWords(wordFileLocation);
-        System.out.println("difficulty " + wordClassification("Legume", cWords));
+        System.out.println("difficulty " + wordClassification("victimizer", cWords));
     }
 
     /**
@@ -22,18 +22,26 @@ public class DifficultyClassifier {
     public static Map<String, Integer> classifyWords(String wordFile) throws IOException {
         Map<String, Integer> classifiedWords = new TreeMap<>();
         int totalWords = totalNumberWords(wordFile);
-        int varX = totalWords / 9;
-        int varXRemainder = totalWords % 9; 
+        double varX = totalWords / 1022.0;
 
         File file = new File(wordFile);
         Scanner sc = new Scanner(file); 
-        for(int i = 1; i <= 9; i++){
-            for(int v = 0; v < varX; v++){
-                classifiedWords.put(sc.nextLine(), i);
+
+        Integer[] levelCount = new Integer[9];
+        int wordCount = 0; 
+        for (int i = 0; i < 9; i++){
+            levelCount[i] = (int) (Math.pow(2.0, i + 1) * varX);
+            wordCount += levelCount[i];
+            if(i == 8){
+                levelCount[i] = levelCount[i] + (totalWords - wordCount); ;
             }
+            System.out.println(levelCount[i]);
         }
-        for(int i = 0; i < varXRemainder; i++){
-            classifiedWords.put(sc.nextLine(), 9);
+
+        for(int i = 0; i < 9; i++){
+            for (int v = levelCount[i]; v > 0; v--){
+                classifiedWords.put(sc.nextLine(), i+1);
+            }
         }
         sc.close();
         return classifiedWords; 
