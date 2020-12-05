@@ -7,39 +7,78 @@ import java.util.Scanner;
 import java.util.TreeMap;
 
 public class DifficultyClassifier {
-    public static void main(String[] args) throws IOException {
+
+    private static int numberOfContainers;
+
+    public static void main(String[] args) throws Exception {
         String wordFileLocation = "C:\\Users\\toaya\\Documents\\GitHub\\LazyReader\\mostFreqWords.txt";
         Map<String, Integer> cWords = new TreeMap<>();
-        cWords = classifyWords(wordFileLocation);
+        cWords = classifyWords(wordFileLocation, 5);
         System.out.println("difficulty " + wordClassification("victimizer", cWords));
     }
 
     /**
-     * @param wordFile - file location of word list txt document with words in difficulty order 
-     * @return - Map with each word mapped to a difficulty level from 1 - 9 on a linear scale 
-     * @throws IOException
+     * @param wordFile - file location of word list txt document with words in
+     *                   difficulty order
+     * @return - Map with each word mapped to a difficulty level from 1 to 10.
+     *           Scale is set exponentially (2x, 4x, 8x, 16x, 32x, etc.)
      */
-    public static Map<String, Integer> classifyWords(String wordFile) throws IOException {
+    public static Map<String, Integer> classifyWords(String wordFile) throws Exception {
+        return classifyWords(wordFile, 10);
+    }
+
+    /**
+     * 
+     * @param wordFile - file location of word list txt document with words in
+     *                   difficulty order
+     * @param containers - number of containers to be created representing the number of difficulty levels
+     * @return - Map with each word mapped to a difficulty container from a scale of 1 to the container
+     *           valued specified. Scale is set exponentially (2x, 4x, 8x, 16x, 32x, etc.)
+     * @throws Exception - If container value passed is less than 2 
+     */
+    public static Map<String, Integer> classifyWords(String wordFile, int containers) throws Exception {
+        if (containers < 3) {
+            throw new Exception("Container Error: Number of containers must be at least 2.");
+        }
+        // Global container constant set to container value.
+        numberOfContainers = containers;
+
+        // Subtract one from containers, largest container value reserved for words not in mostFreqWords.txt 
+        containers -= 1; 
         Map<String, Integer> classifiedWords = new TreeMap<>();
         int totalWords = totalNumberWords(wordFile);
-        double varX = totalWords / 1022.0;
-
+        
+        // Calculate splitter value based on number of containers 
+        double growth = 2; 
+        double splitter = 0; 
+        for(int i = 0; i < containers; i++){
+            splitter += growth; 
+            growth *= 2; 
+            System.out.println(splitter);
+        }
+        double varX = totalWords / splitter;
+        
+        // Calculating the number of words in each container level and storing in array
         File file = new File(wordFile);
         Scanner sc = new Scanner(file); 
 
-        Integer[] levelCount = new Integer[9];
+        Integer[] levelCount = new Integer[containers];
         int wordCount = 0; 
-        for (int i = 0; i < 9; i++){
+        for (int i = 0; i < containers; i++){
             levelCount[i] = (int) (Math.pow(2.0, i + 1) * varX);
             wordCount += levelCount[i];
-            if(i == 8){
+
+            // If the total words are not split evenly, all extra words are placed into the
+            // second to last container element in array
+            if(i == containers-1){
                 levelCount[i] += (totalWords - wordCount); ;
             }
         }
 
-        for(int i = 0; i < 9; i++){
+        // Words are mapped to difficulty container based on array, levelCount, created above
+        for(int i = 0; i < containers; i++){
             for (int v = levelCount[i]; v > 0; v--){
-                classifiedWords.put(sc.nextLine(), i+1);
+                classifiedWords.put(sc.nextLine(), containers);
             }
         }
         sc.close();
@@ -75,7 +114,8 @@ public class DifficultyClassifier {
         if(wordList.containsKey(word)){
             return wordList.get(word);
         } else {
-            return 10; 
+            // If the word is not found in Map, the word is defined to be in the highest difficulty container 
+            return numberOfContainers; 
         }
     }
 }
