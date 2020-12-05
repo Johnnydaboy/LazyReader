@@ -56,7 +56,7 @@ public class LazyReader {
     }
 
     private String[] tokenize(String sentence) {
-        WhitespaceTokenizer whitespaceTokenizer= WhitespaceTokenizer.INSTANCE; 
+        WhitespaceTokenizer whitespaceTokenizer = WhitespaceTokenizer.INSTANCE; 
         return whitespaceTokenizer.tokenize(sentence);
     }
 

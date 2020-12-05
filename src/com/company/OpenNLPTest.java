@@ -1,3 +1,5 @@
+package com.company;
+
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -20,11 +22,7 @@ public class OpenNLPTest {
         //Instantiating POSTaggerME class 
         POSTaggerME tagger = new POSTaggerME(model); 
             
-<<<<<<< HEAD
         String sentence = "This is heresey, these are complex, disturbing, terrible, teacher"; 
-=======
-        String sentence = "This is a test sentence!"; 
->>>>>>> b2d71b566437cdb5ff0bf68faaed68126b2c893a
             
         //Tokenizing the sentence using WhitespaceTokenizer class  
         WhitespaceTokenizer whitespaceTokenizer= WhitespaceTokenizer.INSTANCE; 
@@ -33,28 +31,8 @@ public class OpenNLPTest {
         //Generating tags 
         String[] tags = tagger.tag(tokens);
 
-<<<<<<< HEAD
         for(int i = 0; i < tokens.length; i++) {
             System.out.printf("%s %s\n", tokens[i], tags[i]);
-=======
-
-        // Building word and POS relationship 
-        Map<String, String> POSSentence = wordPOSCreator(tokens, tags);
-
-        // Prints word and corresponding POS
-        print(POSSentence);
-
-        // Instantiating the POSSample class
-        POSSample sample = new POSSample(tokens, tags);
-        System.out.println(sample.toString());
-    }
-
-    // Prints word and corresponding simplified POS 
-    public static void print(Map<String, String> words) {
-        for (String key : words.keySet()){
-            System.out.println(key + ", " + words.get(key));
-            
->>>>>>> b2d71b566437cdb5ff0bf68faaed68126b2c893a
         }
     }
 
