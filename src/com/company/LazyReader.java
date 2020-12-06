@@ -34,8 +34,15 @@ public class LazyReader {
     }
     
     public static void main(String[] args) throws IOException {
-        LazyReader lazyBook = new LazyReader("/home/jonathanpi/Computer Science/LazyReader/LazyReader/src/dict", 
-            "/home/jonathanpi/Computer Science/LazyReader/LazyReader/lib/en-pos-maxent.bin");
+        //LazyReader lazyBook = new LazyReader("/home/jonathanpi/Computer Science/LazyReader/LazyReader/src/dict", 
+        //    "/home/jonathanpi/Computer Science/LazyReader/LazyReader/lib/en-pos-maxent.bin");
+
+        LazyReader lazyBook = new LazyReader("C:\\Users\\toaya\\Documents\\GitHub\\LazyReader\\src\\dict", 
+            "C:\\Users\\toaya\\Documents\\GitHub\\en-pos-maxent.bin");
+
+
+            
+            
         
         String sentence = "This is heresey, these are complex, disturbing, terrible, teacher";
         String simpleSentence = lazyBook.simplifier(sentence);

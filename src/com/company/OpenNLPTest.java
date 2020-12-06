@@ -31,12 +31,22 @@ public class OpenNLPTest {
         //Generating tags 
         String[] tags = tagger.tag(tokens);
 
+<<<<<<< HEAD
         for(int i = 0; i < tokens.length; i++) {
             System.out.printf("%s %s\n", tokens[i], tags[i]);
         }
     }
 
     // Word and POS Identifier placed into a map
+=======
+
+        for(int i = 0; i < tokens.length; i++) {
+            System.out.printf("%s %s\n", tokens[i], tags[i]);
+        }
+
+        // Building word and POS relationship 
+        Map<String, String> POSSentence = wordPOSCreator(tokens, tags);
+>>>>>>> 3694595b8dad32c76818474e27a7ca27c4144a2d
     // Simplifies POS tag to "N", "A", "V", "D", etc. 
     // LinkedHashMap keeps order of elements inserted into Map 
     public static Map<String, String> wordPOSCreator (String[] tokens, String[] tags) {
