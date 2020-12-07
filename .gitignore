@@ -1,3 +1,4 @@
-.vscode
-jars
-src/dict
+.vscode/
+jars/
+src/dict/
+config.properties
