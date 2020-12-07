@@ -29,6 +29,14 @@ public class LazyReader {
     POSModel modelPOS;
     POSTaggerME tagger;
 
+    /**
+     * 
+     * @param dictFilePath - the String filepath for the WordNet dictionary
+     * @param modelPOSFilePath -  the String filepath for the POS identifier model
+     * @param modelTokenFilePath - the String filepath for the tokenizer model
+     * @throws IOException - if the file is not found
+     * 
+     */
     public LazyReader(String dictFilePath, String modelPOSFilePath, String modelTokenFilePath) throws IOException {
         dict = new Dictionary(new File(dictFilePath));
 
@@ -67,6 +75,16 @@ public class LazyReader {
         //lazyBook.getStem("boots", POS.NOUN);
     }
 
+    /**
+     * 
+     * @param sentence - The sentence which is to be simplified
+     * @return - The simplified sentence in String form
+     * @throws IOException - if the file is not found
+     * 
+     * This function will take in a sentence (most likely a complex one) 
+     * and will replace the complex words in the sentence with simpler ones
+     * to return as a simpler sentence
+     */
     public String simplifier(String sentence) throws IOException {
         String simpleSentence = "";
         String[] wordTokens = tokenizePuncutation(sentence);
@@ -100,21 +118,49 @@ public class LazyReader {
     }
     */
 
+    /**
+     * 
+     * @param sentence - the sentence which you want to tokenize into an array of words, tokenized by puncutation
+     * @return - the array of Strings from the sentence we want to tokenize
+     * @throws IOException - if the file is not found
+     * 
+     * This function will return the sentence as an array of Strings by seperating them by puncutation
+     */
     private String[] tokenizePuncutation(String sentence) throws IOException {
         TokenizerModel modelToken = new TokenizerModel(inputStreamToken);
         Tokenizer tokenizer = new TokenizerME(modelToken);
         return tokenizer.tokenize(sentence);
     }
 
+    /**
+     * 
+     * @param sentence - the sentence which you want to tokenize into an array of words, tokenized by white space
+     * @return - the array of Strings from the sentence we want to tokenize
+     * 
+     * This function will return the sentence as an array of Strings by seperating them by whitespace
+     */
     private String[] tokenizeWhiteSpace(String sentence) {
         WhitespaceTokenizer whitespaceTokenizer = WhitespaceTokenizer.INSTANCE; 
         return whitespaceTokenizer.tokenize(sentence);
     }
 
+    /**
+     * 
+     * @param tokens - the array of words that need to be converted to opennlp POS 
+     * @return - the words which have been converted to an array of opennlp POSs (Strings)
+     * 
+     * This function will take in a String array of words and return their POS (opennlp POS)
+     */
     private String[] tagger(String[] tokens) {
         return tagger.tag(tokens);
     }
 
+    /**
+     * 
+     * @param word - 
+     * @param partOfSpeech - 
+     * 
+     */
     public void getSynonyms(String word, POS partOfSpeech) {
         IIndexWord idxWord = dict.getIndexWord(word, partOfSpeech);
         // .get() must be in stem form else it'll return null
@@ -126,6 +172,14 @@ public class LazyReader {
         }
     }
 
+    /**
+     * 
+     * @param tags - the array of opennlp POSs (Strings) which need to be converted to WordNet POSs
+     * @return -  an array of WordNet POS
+     * 
+     * This function will take in an array of String POS (from opennlp) and convert it into an array
+     * of WordNet POSs
+     */
     private POS[] toSimplify(String[] tags) {
         POS[] whatToSimplify = new POS[tags.length];
         for(int i = 0; i < tags.length; i++) {
@@ -137,6 +191,13 @@ public class LazyReader {
 
     // expand in the future to work with POS.VERB potentially if 
     // we can manage to change the verb tense back to it's original form
+    /**
+     * 
+     * @param token - a single opennlp POS 
+     * @return - a WordNet POS
+     * 
+     * This method will take in a String POS (from opennlp) and convert it into a WordNet POS
+     */
     private POS nounTags(String token) {
         //System.out.printf("inside nounTags: %s\n", token);
         switch(token) {
