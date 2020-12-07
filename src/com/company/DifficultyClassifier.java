@@ -13,7 +13,7 @@ public class DifficultyClassifier {
     public static void main(String[] args) throws Exception {
         String wordFileLocation = "C:\\Users\\toaya\\Documents\\GitHub\\LazyReader\\mostFreqWords.txt";
         Map<String, Integer> cWords = new TreeMap<>();
-        cWords = classifyWords(wordFileLocation, 5);
+        cWords = classifyWords(wordFileLocation);
         System.out.println("difficulty " + wordClassification("victimizer", cWords));
     }
 
@@ -23,7 +23,7 @@ public class DifficultyClassifier {
      * @return - Map with each word mapped to a difficulty level from 1 to 10.
      *           Scale is set exponentially (2x, 4x, 8x, 16x, 32x, etc.)
      */
-    public static Map<String, Integer> classifyWords(String wordFile) throws Exception {
+    private static Map<String, Integer> classifyWords(String wordFile) throws Exception {
         return classifyWords(wordFile, 10);
     }
 
@@ -36,7 +36,7 @@ public class DifficultyClassifier {
      *           valued specified. Scale is set exponentially (2x, 4x, 8x, 16x, 32x, etc.)
      * @throws Exception - If container value passed is less than 2 
      */
-    public static Map<String, Integer> classifyWords(String wordFile, int containers) throws Exception {
+    private static Map<String, Integer> classifyWords(String wordFile, int containers) throws Exception {
         if (containers < 3) {
             throw new Exception("Container Error: Number of containers must be at least 2.");
         }
@@ -90,7 +90,7 @@ public class DifficultyClassifier {
      * @return - Integer representing the total number of words in wordFile 
      * @throws IOException
      */
-    public static int totalNumberWords(String wordFile) throws IOException {
+    private static int totalNumberWords(String wordFile) throws IOException {
         int wordCount = 0; 
         File file = new File(wordFile);
         Scanner sc = new Scanner(file); 

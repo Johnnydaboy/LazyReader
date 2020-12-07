@@ -63,6 +63,7 @@
         "jars/apache-opennlp-1.9.3/lib/opennlp-morfologik-addon-1.9.3.jar",
         "jars/apache-opennlp-1.9.3/lib/opennlp-tools-1.9.3.jar",
         "jars/apache-opennlp-1.9.3/lib/opennlp-uima-1.9.3.jar",
-        "jars/apache-opennlp-1.9.3/lib/osgi-resource-locator-1.0.3.jar"
+        "jars/apache-opennlp-1.9.3/lib/osgi-resource-locator-1.0.3.jar",
+        "c:\\Users\\toaya\\Downloads\\evo-inflector-1.2.2.jar"
     ]
 }

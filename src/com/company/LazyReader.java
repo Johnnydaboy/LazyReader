@@ -51,7 +51,7 @@ public class LazyReader {
     
     public static void main(String[] args) throws IOException {
         Properties prop = new Properties();
-        InputStream propInputStrem = new FileInputStream("/home/jonathanpi/Computer Science/LazyReader/src/com/company/config.properties");
+        InputStream propInputStrem = new FileInputStream("C:\\Users\\toaya\\Documents\\GitHub\\LazyReader\\src\\com\\company\\config.properties");
         prop.load(propInputStrem);
 
         LazyReader lazyBook = new LazyReader(prop.getProperty("filepath") + "src/dict", 
