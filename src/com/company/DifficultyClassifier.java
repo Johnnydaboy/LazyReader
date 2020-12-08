@@ -20,15 +20,17 @@ public class DifficultyClassifier {
     }
     */
 
+    /*
     public static void main(String[] args) throws Exception {
         DifficultyClassifier classifier = new DifficultyClassifier();
         
         System.out.println(classifier.cWords.size());
         System.out.printf("difficulty, %d\n", classifier.wordClassification("the"));
     }
+    */
 
-    public DifficultyClassifier() throws Exception {
-        cWords = classifyWords("/home/jonathanpi/Computer Science/LazyReader/mostFreqWords.txt");
+    public DifficultyClassifier(String filePath) throws Exception {
+        cWords = classifyWords(filePath + "mostFreqWords.txt");
     }
 
     /**
