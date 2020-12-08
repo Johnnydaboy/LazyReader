@@ -70,7 +70,6 @@ public class DifficultyClassifier {
         for(int i = 0; i < containers; i++){
             splitter += growth; 
             growth *= 2; 
-            System.out.println(splitter);
         }
         double varX = totalWords / splitter;
         
