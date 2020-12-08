@@ -141,7 +141,7 @@ public class LazyReader {
         } else {
             simpleSentence = simpleSentence + wordTokens[0];
         }
-
+        // ALSO CHECK TO MAKE SURE IF wordTokens FALLS INTO A BETTER RANGE FOR MIN AND MAX THAN simpleSyn (line 155)
         for(int i = 1; i < whichToSimplify.length; i++) {
             if(whichToSimplify[i] != null) {
                 // get the simplier synonym here and replace
@@ -201,24 +201,9 @@ public class LazyReader {
 
     /**
      * 
-     * @param word - 
-     * @param partOfSpeech - 
-     * @throws IOException
-     * 
+     * @param difficulties - a list of the difficulties of the synonyms (in integer form)
+     * @return the index of the lowest difficulty synonym
      */
-    /*
-    private void getSynonyms(String word, POS partOfSpeech) {
-        IIndexWord idxWord = dict.getIndexWord(word, partOfSpeech);
-        // .get() must be in stem form else it'll return null
-        IWordID wordID = idxWord.getWordIDs().get(0);
-        IWord dictWord = dict.getWord(wordID);
-        ISynset synset = dictWord.getSynset();
-        for(IWord w : synset.getWords()) {
-            System.out.println(w.getLemma());
-        }
-    }
-    */
-
     private int getLowest(List<Integer> difficulties) {
         int placement = 0;
         for(int i = 0; i < difficulties.size(); i++) {
@@ -230,6 +215,11 @@ public class LazyReader {
         return placement;
     }
 
+    /**
+     * 
+     * @param hm - the Map which you want to sort by value
+     * @return - the Map which is sorted by value
+     */
     private Map<String, Integer> sortByValue(Map<String, Integer> hm) 
     { 
         // Create a list from elements of HashMap 
@@ -253,6 +243,14 @@ public class LazyReader {
         return temp; 
     } 
 
+    /**
+     * 
+     * @param min - the minimum difficulty the synonym should be replaced by
+     * @param max -  the maxium difficulty the synonym should be replaced by
+     * @param synonyms - the synonyms which will replace the word
+     * @return - the synonym whose difficulty falls closest to the int max, if nothing is found the lowest difficulty will be returned
+     * @throws IOException - 
+     */
     private String simplestSyn(int min, int max, List<String> synonyms) throws IOException {
         // Grab the difficulties of the synonyms and put them into a list
         List<Integer> synonymDifficulty = new ArrayList<>();
@@ -267,29 +265,13 @@ public class LazyReader {
 
         //System.out.println(lowestDiffSyn);
 
-        // Useless code, replaced by sortByValue method
-        /*
-        // Create a map which will be orded by ascending value
-        
-        // while the synonyms list is not empty
-        while(!synonyms.isEmpty()) {
-            // find out which placement has the lowest synonym difficulty
-            lowest = getLowest(synonymDifficulty);
-            // put that in the map 
-            synDiffValueOrdered.put(synonyms.get(lowest), synonymDifficulty.get(lowest));
-
-            // remove the synonym from both lists and continue organizing the map until both lists are empty
-            synonyms.remove(lowest);
-            synonymDifficulty.remove(lowest);
-        }
-        */
-
         Map<String, Integer> synDiffValueOrdered = new HashMap<>();
 
         for(String synonym : synonyms) {
             synDiffValueOrdered.put(synonym, classifier.wordClassification(synonym));
         }
 
+        // sort the map by ascending order for value
         synDiffValueOrdered = sortByValue(synDiffValueOrdered);
         
         // get the highestDiffSyn that is closest to the max and still above min
@@ -315,6 +297,12 @@ public class LazyReader {
     }
 
 
+    /**
+     * 
+     * @param word - the word of which you want to find syonyms for
+     * @param partOfSpeech - which part of speech (noun, verb, adj) does it fall under
+     * @return - a list of synonyms to the word or null if none can be found in the database
+     */
     private List<String> getSynonyms(String word, POS partOfSpeech) {
         List<String> synonyms = new ArrayList<>();
 
