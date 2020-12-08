@@ -80,7 +80,7 @@ public class LazyReader {
 
         // For some reason the code yeets itself when there is too much text to parse, IDK why
         /*
-        while(fileReader.hasNextLine()) {
+        while(fileReader.hasNextLine()) {   
             sentence = fileReader.nextLine();
             System.out.println(sentence);
             String simpleSentence = lazyBook.simplifier(sentence, 1, 3);
@@ -96,7 +96,7 @@ public class LazyReader {
         }
         */
 
-        String simpleSentence = lazyBook.simplifier(sentence, 5, 7);
+        String simpleSentence = lazyBook.simplifier(sentence, 8, 10);
 
         System.out.println(simpleSentence);
         
@@ -106,13 +106,13 @@ public class LazyReader {
 
     /**
      * 
-     * @param sentence - The sentence which is to be simplified
+     * @param sentence - The String sentence which is to be simplified
      * @return - The simplified sentence in String form
      * @throws IOException - if the file is not found
      * 
-     * This function will take in a sentence (most likely a complex one) 
-     * and will replace the complex words in the sentence with simpler ones
-     * to return as a simpler sentence
+     * This function will take in a String sentence (most likely a complex one) 
+     * and will replace the complex nouns in the sentence with simpler ones
+     * to return as a simpler String sentence
      */
     public String simplifier(String sentence, int min, int max) throws IOException {
         if(sentence.equals("")) {
@@ -165,7 +165,7 @@ public class LazyReader {
                 simpleSentence = simpleSentence + " " + wordTokens[i];
             }
 
-            //System.out.printf("|%s|, |%s|\n", tokenTags[i], wordTokens[i]);
+            System.out.printf("|%s|, |%s|\n", tokenTags[i], wordTokens[i]);
         }
 
         simpleSentence = simpleSentence.trim();
