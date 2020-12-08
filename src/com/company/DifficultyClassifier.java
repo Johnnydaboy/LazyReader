@@ -9,12 +9,26 @@ import java.util.TreeMap;
 public class DifficultyClassifier {
 
     private static int numberOfContainers;
+    Map<String, Integer> cWords;
 
+    /*
     public static void main(String[] args) throws Exception {
-        String wordFileLocation = "C:\\Users\\toaya\\Documents\\GitHub\\LazyReader\\mostFreqWords.txt";
+        String wordFileLocation = "/home/jonathanpi/Computer Science/LazyReader/mostFreqWords.txt";
         Map<String, Integer> cWords = new TreeMap<>();
         cWords = classifyWords(wordFileLocation);
-        System.out.println("difficulty " + wordClassification("victimizer", cWords));
+        System.out.println("difficulty " + wordClassification("boss", cWords));
+    }
+    */
+
+    public static void main(String[] args) throws Exception {
+        DifficultyClassifier classifier = new DifficultyClassifier();
+        
+        System.out.println(classifier.cWords.size());
+        System.out.printf("difficulty, %d\n", classifier.wordClassification("the"));
+    }
+
+    public DifficultyClassifier() throws Exception {
+        cWords = classifyWords("/home/jonathanpi/Computer Science/LazyReader/mostFreqWords.txt");
     }
 
     /**
@@ -23,7 +37,7 @@ public class DifficultyClassifier {
      * @return - Map with each word mapped to a difficulty level from 1 to 10.
      *           Scale is set exponentially (2x, 4x, 8x, 16x, 32x, etc.)
      */
-    private static Map<String, Integer> classifyWords(String wordFile) throws Exception {
+    private Map<String, Integer> classifyWords(String wordFile) throws Exception {
         return classifyWords(wordFile, 10);
     }
 
@@ -36,7 +50,7 @@ public class DifficultyClassifier {
      *           valued specified. Scale is set exponentially (2x, 4x, 8x, 16x, 32x, etc.)
      * @throws Exception - If container value passed is less than 2 
      */
-    private static Map<String, Integer> classifyWords(String wordFile, int containers) throws Exception {
+    private Map<String, Integer> classifyWords(String wordFile, int containers) throws Exception {
         if (containers < 3) {
             throw new Exception("Container Error: Number of containers must be at least 2.");
         }
@@ -78,7 +92,9 @@ public class DifficultyClassifier {
         // Words are mapped to difficulty container based on array, levelCount, created above
         for(int i = 0; i < containers; i++){
             for (int v = levelCount[i]; v > 0; v--){
-                classifiedWords.put(sc.nextLine(), containers);
+                String next = sc.nextLine();
+                //System.out.printf("|| lvl count: %d, %s ||", i, next);
+                classifiedWords.put(next, i + 1);
             }
         }
         sc.close();
@@ -90,7 +106,7 @@ public class DifficultyClassifier {
      * @return - Integer representing the total number of words in wordFile 
      * @throws IOException
      */
-    private static int totalNumberWords(String wordFile) throws IOException {
+    private int totalNumberWords(String wordFile) throws IOException {
         int wordCount = 0; 
         File file = new File(wordFile);
         Scanner sc = new Scanner(file); 
@@ -104,15 +120,14 @@ public class DifficultyClassifier {
 
     /**
      * @param word - String that needs to be found in wordList
-     * @param wordList - all words in word file mapped to difficulty level 
      * @return - integer representing the difficult on a scale of 1 to 9. If word is not
      *           found in wordList, difficulty level 10 is returned 
      * @throws IOException
      */
-    public static int wordClassification(String word, Map<String, Integer> wordList) throws IOException {
+    public int wordClassification(String word) throws IOException {
         word = word.toLowerCase().replaceAll("\\s", ""); 
-        if(wordList.containsKey(word)){
-            return wordList.get(word);
+        if(cWords.containsKey(word)){
+            return cWords.get(word);
         } else {
             // If the word is not found in Map, the word is defined to be in the highest difficulty container 
             return numberOfContainers; 

@@ -28,6 +28,7 @@ public class LazyReader {
     InputStream inputStreamToken;
     POSModel modelPOS;
     POSTaggerME tagger;
+    DifficultyClassifier classifier;
 
     /**
      * 
@@ -46,12 +47,14 @@ public class LazyReader {
 
         inputStreamToken = new FileInputStream(modelTokenFilePath);
 
+        //classifier = new DifficultyClassifier();
+
         dict.open();
     }
     
     public static void main(String[] args) throws IOException {
         Properties prop = new Properties();
-        InputStream propInputStrem = new FileInputStream("C:\\Users\\toaya\\Documents\\GitHub\\LazyReader\\src\\com\\company\\config.properties");
+        InputStream propInputStrem = new FileInputStream("/home/jonathanpi/Computer Science/LazyReader/src/com/company/config.properties");
         prop.load(propInputStrem);
 
         LazyReader lazyBook = new LazyReader(prop.getProperty("filepath") + "src/dict", 
@@ -91,23 +94,90 @@ public class LazyReader {
         String[] tokenTags = tagger(wordTokens);
         POS[] whichToSimplify = toSimplify(tokenTags);
 
-        for(int i = 0; i < whichToSimplify.length; i++) {
+        if(whichToSimplify[0] != null) {
+            // get the simplier synonym here and replace
+            getSynonyms(wordTokens[0], whichToSimplify[0]);
+        } else {
+            simpleSentence = simpleSentence + wordTokens[0];
+        }
+
+        for(int i = 1; i < whichToSimplify.length; i++) {
             if(whichToSimplify[i] != null) {
                 // get the simplier synonym here and replace
                 getSynonyms(wordTokens[i], whichToSimplify[i]);
+            } else if (isPunctuation(wordTokens[i])) {
+                simpleSentence = simpleSentence + wordTokens[i];
             } else {
-                simpleSentence = simpleSentence + wordTokens[i] + " ";
+                simpleSentence = simpleSentence + " " + wordTokens[i];
             }
 
-            System.out.printf("%s, %s\n", tokenTags[i], wordTokens[i]);
+            //System.out.printf("%s, %s\n", tokenTags[i], wordTokens[i]);
         }
 
         simpleSentence = simpleSentence.trim();
         return simpleSentence;
     }
 
+    /**
+     * 
+     * @param token - the word passed in to be checked if it's a puncutation or not
+     * @return - true if it is a puncutation (non-word)
+     */
+    private boolean isPunctuation(String token) {
+        switch(token) {
+            case ".": 
+                return true;
+            case ",": 
+                return true;
+            case ":": 
+                return true;
+            case "(": 
+                return true;
+            case ")":
+                return true;
+            case "$":
+                return true;
+            case "'":
+                return true;
+            case "\"":
+                return true;
+        }
+        return false;
+    }
+
+    /**
+     * 
+     * @param word - 
+     * @param partOfSpeech - 
+     * 
+     */
     /*
-    public String getStem(String original, POS partOfSpeech) {
+    private void getSynonyms(String word, POS partOfSpeech) {
+        IIndexWord idxWord = dict.getIndexWord(word, partOfSpeech);
+        // .get() must be in stem form else it'll return null
+        IWordID wordID = idxWord.getWordIDs().get(0);
+        IWord dictWord = dict.getWord(wordID);
+        ISynset synset = dictWord.getSynset();
+        for(IWord w : synset.getWords()) {
+            System.out.println(w.getLemma());
+        }
+    }
+    */
+
+    private String getSynonyms(String word, POS partOfSpeech) {
+        IIndexWord idxWord = dict.getIndexWord(word, partOfSpeech);
+        // .get() must be in stem form else it'll return null
+        IWordID wordID = idxWord.getWordIDs().get(0);
+        IWord dictWord = dict.getWord(wordID);
+        ISynset synset = dictWord.getSynset();
+        for(IWord w : synset.getWords()) {
+            System.out.println(w.getLemma());
+        }
+
+        return "";
+    }
+    
+    private String getStem(String original, POS partOfSpeech) {
         IStemmer stemmer = new WordnetStemmer(dict);
         List<String> test = stemmer.findStems(original, partOfSpeech);
         for (int i = 0; i < test.size(); i++) {
@@ -116,7 +186,6 @@ public class LazyReader {
 
         return test.get(0);
     }
-    */
 
     /**
      * 
@@ -153,23 +222,6 @@ public class LazyReader {
      */
     private String[] tagger(String[] tokens) {
         return tagger.tag(tokens);
-    }
-
-    /**
-     * 
-     * @param word - 
-     * @param partOfSpeech - 
-     * 
-     */
-    public void getSynonyms(String word, POS partOfSpeech) {
-        IIndexWord idxWord = dict.getIndexWord(word, partOfSpeech);
-        // .get() must be in stem form else it'll return null
-        IWordID wordID = idxWord.getWordIDs().get(0);
-        IWord dictWord = dict.getWord(wordID);
-        ISynset synset = dictWord.getSynset();
-        for(IWord w : synset.getWords()) {
-            System.out.println(w.getLemma());
-        }
     }
 
     /**
