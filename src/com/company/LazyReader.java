@@ -18,10 +18,15 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+import java.util.Scanner;
 
 import org.atteo.evo.inflector.English;
 
@@ -70,7 +75,19 @@ public class LazyReader {
         
         String sentence = "I woke up to a pounding headache and a roaring migraine.";
 
-        sentence = "";
+        File file = new File(prop.getProperty("filepath") + "src/com/company/text.txt");
+        Scanner fileReader = new Scanner(file);
+
+        // For some reason the code yeets itself when there is too much text to parse, IDK why
+        /*
+        while(fileReader.hasNextLine()) {
+            sentence = fileReader.nextLine();
+            System.out.println(sentence);
+            String simpleSentence = lazyBook.simplifier(sentence, 1, 3);
+            System.out.println(simpleSentence);
+        }
+        fileReader.close();
+        */
 
         /*
         String[] wordTokens = lazyBook.tokenizePuncutation(sentence);
@@ -79,7 +96,7 @@ public class LazyReader {
         }
         */
 
-        String simpleSentence = lazyBook.simplifier(sentence, 1, 3);
+        String simpleSentence = lazyBook.simplifier(sentence, 5, 7);
 
         System.out.println(simpleSentence);
         
@@ -98,6 +115,10 @@ public class LazyReader {
      * to return as a simpler sentence
      */
     public String simplifier(String sentence, int min, int max) throws IOException {
+        if(sentence.equals("")) {
+            return "";
+            //throw new IOException();
+        }
         String simpleSentence = "";
         String[] wordTokens = tokenizePuncutation(sentence);
         String[] tokenTags = tagger(wordTokens);
@@ -209,6 +230,29 @@ public class LazyReader {
         return placement;
     }
 
+    private Map<String, Integer> sortByValue(Map<String, Integer> hm) 
+    { 
+        // Create a list from elements of HashMap 
+        List<Map.Entry<String, Integer> > list = 
+               new LinkedList<Map.Entry<String, Integer> >(hm.entrySet()); 
+  
+        // Sort the list 
+        Collections.sort(list, new Comparator<Map.Entry<String, Integer> >() { 
+            public int compare(Map.Entry<String, Integer> o1,  
+                               Map.Entry<String, Integer> o2) 
+            { 
+                return (o1.getValue()).compareTo(o2.getValue()); 
+            } 
+        }); 
+          
+        // put data from sorted list to hashmap  
+        HashMap<String, Integer> temp = new LinkedHashMap<String, Integer>(); 
+        for (Map.Entry<String, Integer> aa : list) { 
+            temp.put(aa.getKey(), aa.getValue()); 
+        } 
+        return temp; 
+    } 
+
     private String simplestSyn(int min, int max, List<String> synonyms) throws IOException {
         // Grab the difficulties of the synonyms and put them into a list
         List<Integer> synonymDifficulty = new ArrayList<>();
@@ -221,8 +265,12 @@ public class LazyReader {
         int lowest = getLowest(synonymDifficulty);
         lowestDiffSyn = synonyms.get(lowest);
 
+        //System.out.println(lowestDiffSyn);
+
+        // Useless code, replaced by sortByValue method
+        /*
         // Create a map which will be orded by ascending value
-        Map<String, Integer> synDiffValueOrdered = new HashMap<>();
+        
         // while the synonyms list is not empty
         while(!synonyms.isEmpty()) {
             // find out which placement has the lowest synonym difficulty
@@ -234,20 +282,34 @@ public class LazyReader {
             synonyms.remove(lowest);
             synonymDifficulty.remove(lowest);
         }
+        */
+
+        Map<String, Integer> synDiffValueOrdered = new HashMap<>();
+
+        for(String synonym : synonyms) {
+            synDiffValueOrdered.put(synonym, classifier.wordClassification(synonym));
+        }
+
+        synDiffValueOrdered = sortByValue(synDiffValueOrdered);
         
         // get the highestDiffSyn that is closest to the max and still above min
         String highestDiffSyn = "";
         for(String synonym : synDiffValueOrdered.keySet()) {
             int diff = synDiffValueOrdered.get(synonym);
-            if(min < diff && diff < max) {
+            //System.out.printf("%s %d\n", synonym, diff);
+            if(diff >= min && diff <= max) {
                 highestDiffSyn = synonym;
             }
         }
+
+        //System.out.println(highestDiffSyn);
 
         // if such a synonym is not found, set it to the lowestDiffSyn and return it
         if(highestDiffSyn.equals("")) {
             highestDiffSyn = lowestDiffSyn;
         }
+
+        System.out.println(synDiffValueOrdered);
         
         return highestDiffSyn;
     }
