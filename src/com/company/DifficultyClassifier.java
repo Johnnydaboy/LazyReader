@@ -134,5 +134,9 @@ public class DifficultyClassifier {
             return numberOfContainers; 
         }
     }
+
+    public int getContainerCount(){
+        return numberOfContainers; 
+    }
 }
 
