@@ -43,3 +43,4 @@ Load the .txt file of the data of frequency of words.
 
 Returns an integer representing the difficulty level of the word selected. The classification is based on an exponential formula which is also based on the specified number of containers and divide the classification categories into the desired number of containers.
 
+## User Guide Video
