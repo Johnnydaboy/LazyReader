@@ -11,26 +11,8 @@ public class DifficultyClassifier {
     private static int numberOfContainers;
     Map<String, Integer> cWords;
 
-    /*
-    public static void main(String[] args) throws Exception {
-        String wordFileLocation = "/home/jonathanpi/Computer Science/LazyReader/mostFreqWords.txt";
-        Map<String, Integer> cWords = new TreeMap<>();
-        cWords = classifyWords(wordFileLocation);
-        System.out.println("difficulty " + wordClassification("boss", cWords));
-    }
-    */
-
-    /*
-    public static void main(String[] args) throws Exception {
-        DifficultyClassifier classifier = new DifficultyClassifier();
-        
-        System.out.println(classifier.cWords.size());
-        System.out.printf("difficulty, %d\n", classifier.wordClassification("the"));
-    }
-    */
-
-    public DifficultyClassifier(String filePath) throws Exception {
-        cWords = classifyWords(filePath + "mostFreqWords.txt");
+    public DifficultyClassifier(String dirPath) throws Exception {
+        cWords = classifyWords(dirPath + "lib/mostFreqWords.txt");
     }
 
     /**
