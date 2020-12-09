@@ -14,14 +14,13 @@ public class DifficultyTest {
     DifficultyClassifier WordC;
 
     public static void main(String[] args) throws Exception {
-        DifficultyClassifier WordClassifier = new DifficultyClassifier("C:\\Users\\toaya\\Documents\\GitHub\\LazyReader\\");
+        DifficultyClassifier WordClassifier = new DifficultyClassifier("/home/jonathanpi/Computer Science/LazyReader/");
         DifficultyTest test = new DifficultyTest(WordClassifier);
         Map<String, Integer> exam = new HashMap<>();
         exam = test.getRandomWords(WordClassifier);
         System.out.println(exam);
         int score = test.testScore(exam, test.performTest(exam));
         System.out.println(score);
-
     }
 
     /**

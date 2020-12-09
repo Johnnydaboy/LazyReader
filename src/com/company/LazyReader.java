@@ -6,7 +6,6 @@ import edu.mit.jwi.morph.WordnetStemmer;
 import edu.mit.jwi.morph.IStemmer;
 
 import opennlp.tools.postag.POSModel;
-//import opennlp.tools.postag.POSSample;
 import opennlp.tools.postag.POSTaggerME;
 import opennlp.tools.tokenize.Tokenizer;
 import opennlp.tools.tokenize.TokenizerME;
@@ -15,6 +14,7 @@ import opennlp.tools.tokenize.WhitespaceTokenizer;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -25,7 +25,6 @@ import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 import java.util.Scanner;
 
 import org.atteo.evo.inflector.English;
@@ -39,41 +38,23 @@ public class LazyReader {
     POSModel modelPOS;
     POSTaggerME tagger;
     DifficultyClassifier classifier;
-    TokenizerModel modelToken; 
+    TokenizerModel modelToken;
 
     /**
      * 
-     * @param dictFilePath       - the String filepath for the WordNet dictionary
-     * @param modelPOSFilePath   - the String filepath for the POS identifier model
-     * @param modelTokenFilePath - the String filepath for the tokenizer model
+     * @param dirPath - the path for the directory of this project
      * @throws Exception
      * 
      */
-    public LazyReader(String dictFilePath, String modelPOSFilePath, String modelTokenFilePath, String filePath)
-            throws Exception {
-        dict = new Dictionary(new File(dictFilePath));
+    public LazyReader(String dirPath) throws Exception {
+        dict = new Dictionary(new File(dirPath + "src" + File.separator + "dict"));
 
-        inputStreamPOS = new FileInputStream(modelPOSFilePath);
+        inputStreamPOS = new FileInputStream(dirPath + "lib" + File.separator + "en-pos-maxent.bin");
         modelPOS = new POSModel(inputStreamPOS);
         tagger = new POSTaggerME(modelPOS); 
 
-        inputStreamToken = new FileInputStream(modelTokenFilePath);
+        inputStreamToken = new FileInputStream(dirPath + "lib" + File.separator + "en-token.bin");
         modelToken = new TokenizerModel(inputStreamToken);
-
-        classifier = new DifficultyClassifier(filePath);
-
-        dict.open();
-    }
-
-    public LazyReader(String dirPath)
-            throws Exception {
-        dict = new Dictionary(new File(dirPath + "src/dict"));
-
-        inputStreamPOS = new FileInputStream(dirPath + "lib/en-pos-maxent.bin");
-        modelPOS = new POSModel(inputStreamPOS);
-        tagger = new POSTaggerME(modelPOS); 
-
-        inputStreamToken = new FileInputStream(dirPath + "lib/en-token.bin");
 
         classifier = new DifficultyClassifier(dirPath);
 
@@ -81,18 +62,18 @@ public class LazyReader {
     }
     
     public static void main(String[] args) throws Exception {
-        System.out.println(System.getProperty("user.dir") + "/");
-        String dirPath = System.getProperty("user.dir") + "/";
+        //System.out.println(System.getProperty("user.dir") + File.separator);
+        String dirPath = System.getProperty("user.dir") + File.separator;
 
         LazyReader lazyBook = new LazyReader(dirPath);
 
         String sentence = "I woke up to a pounding headache and a roaring migraine.";
 
-        File file = new File(dirPath + "src/com/company/text.txt");
+        File file = new File(dirPath + "src" + File.separator + "com" + File.separator + 
+                            "company" + File.separator + "text.txt");
         Scanner fileReader = new Scanner(file);
 
-        //  Ok found the bug, the code yeets itself when lazyBook.simplifier is called multiple times
-        // Seems like the program managed to consume the model during the inputStream leaving it null
+        // Read a paragraph from a text file
         String paragraph = "";
         while(fileReader.hasNextLine()) {   
             paragraph = paragraph + fileReader.nextLine() + " ";
@@ -100,15 +81,10 @@ public class LazyReader {
         paragraph = paragraph.trim();
         fileReader.close();
         
-        //sentence = "Few people have more experience in the complex challenges posed by artificial intelligence than Elon Musk. He was an early developer of smart energy-management systems, car manufacturers and a GPS satellite system. But his dreams of dominating the world with AI were never realised.";
-
-        System.out.println(paragraph);
-        //String simpleSentence = lazyBook.simplifier(sentence, 4, 7);
-        //System.out.println(simpleSentence);
+        String simpleSentence = lazyBook.simplifier(sentence, 4, 7);
+        System.out.println(simpleSentence);
 
         System.out.println(lazyBook.simplifier(paragraph, 4, 7));
-
-        
     }
 
     /**
@@ -355,7 +331,6 @@ public class LazyReader {
     private String[] tokenizePuncutation(String sentence) throws IOException {
         Tokenizer tokenizer = new TokenizerME(modelToken);
 
-        System.out.println("AAAAAAAAA");
         return tokenizer.tokenize(sentence);
     }
 

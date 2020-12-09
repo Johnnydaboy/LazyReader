@@ -12,7 +12,7 @@ public class DifficultyClassifier {
     Map<String, Integer> cWords;
 
     public DifficultyClassifier(String dirPath) throws Exception {
-        cWords = classifyWords(dirPath + "lib/mostFreqWords.txt");
+        cWords = classifyWords(dirPath + "lib" + File.separator + "mostFreqWords.txt");
     }
 
     /**
