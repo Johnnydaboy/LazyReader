@@ -32,3 +32,14 @@ Specify the file path for the input stream and the libraries and create the Lazy
 
 Call the simplifier method by referencing the lazyBook class with the specified sentence and calling the minimum and maximum classification levels of synonyms. This method will print out a new string sentence with the nouns replaced by the specified classification levels
 
+## simplifier
+
+## DifficultyClassifier
+![alt text](https://github.com/Johnnydaboy/LazyReader/blob/dev/pictures/classifyFile.PNG?raw=true)
+
+Load the .txt file of the data of frequency of words.
+
+![alt text](https://github.com/Johnnydaboy/LazyReader/blob/dev/pictures/classifyMethod.PNG?raw=true)
+
+Returns an integer representing the difficulty level of the word selected. The classification is based on an exponential formula which is also based on the specified number of containers and divide the classification categories into the desired number of containers.
+
