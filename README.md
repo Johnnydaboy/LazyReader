@@ -20,4 +20,4 @@ The `JAVA DEPENDENCIES` view allows you to manage your dependencies. More detail
 This LazyReader program classifies words in the English vocabulary based on the frequency of the word used in everyday life based on the NGLS database. It features several libraries: MIT JWI, OpenNLP, WordNet, and Apache to retrieve and replace synonyms of nouns based on the input level of "difficulty" by the user in the given sentence.
 
 ## Getting Started
-![alt text](Isolated.png "loadLibrary.PNG")
+![alt text](https://github.com/Johnnydaboy/LazyReader/blob/dev/loadLibrary.PNG?raw=true)
