@@ -6,7 +6,6 @@ import edu.mit.jwi.morph.WordnetStemmer;
 import edu.mit.jwi.morph.IStemmer;
 
 import opennlp.tools.postag.POSModel;
-//import opennlp.tools.postag.POSSample;
 import opennlp.tools.postag.POSTaggerME;
 import opennlp.tools.tokenize.Tokenizer;
 import opennlp.tools.tokenize.TokenizerME;
@@ -15,6 +14,7 @@ import opennlp.tools.tokenize.WhitespaceTokenizer;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -25,7 +25,6 @@ import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 import java.util.Scanner;
 
 import org.atteo.evo.inflector.English;
@@ -39,69 +38,53 @@ public class LazyReader {
     POSModel modelPOS;
     POSTaggerME tagger;
     DifficultyClassifier classifier;
+    TokenizerModel modelToken;
 
     /**
      * 
-     * @param dictFilePath       - the String filepath for the WordNet dictionary
-     * @param modelPOSFilePath   - the String filepath for the POS identifier model
-     * @param modelTokenFilePath - the String filepath for the tokenizer model
+     * @param dirPath - the path for the directory of this project
      * @throws Exception
      * 
      */
-    public LazyReader(String dictFilePath, String modelPOSFilePath, String modelTokenFilePath, String filePath)
-            throws Exception {
-        dict = new Dictionary(new File(dictFilePath));
+    public LazyReader(String dirPath) throws Exception {
+        dict = new Dictionary(new File(dirPath + "src" + File.separator + "dict"));
 
-        inputStreamPOS = new FileInputStream(modelPOSFilePath);
+        inputStreamPOS = new FileInputStream(dirPath + "lib" + File.separator + "en-pos-maxent.bin");
         modelPOS = new POSModel(inputStreamPOS);
         tagger = new POSTaggerME(modelPOS); 
 
-        inputStreamToken = new FileInputStream(modelTokenFilePath);
+        inputStreamToken = new FileInputStream(dirPath + "lib" + File.separator + "en-token.bin");
+        modelToken = new TokenizerModel(inputStreamToken);
 
-        classifier = new DifficultyClassifier(filePath);
+        classifier = new DifficultyClassifier(dirPath);
 
         dict.open();
     }
     
     public static void main(String[] args) throws Exception {
-        Properties prop = new Properties();
-        InputStream propInputStrem = new FileInputStream("/home/jonathanpi/Computer Science/LazyReader/src/com/company/config.properties");
-        prop.load(propInputStrem);
+        //System.out.println(System.getProperty("user.dir") + File.separator);
+        String dirPath = System.getProperty("user.dir") + File.separator;
 
-        LazyReader lazyBook = new LazyReader(prop.getProperty("filepath") + "src/dict", 
-            prop.getProperty("filepath") + "lib/en-pos-maxent.bin", 
-            prop.getProperty("filepath") + "lib/en-token.bin",
-            prop.getProperty("filepath"));
-        
+        LazyReader lazyBook = new LazyReader(dirPath);
+
         String sentence = "I woke up to a pounding headache and a roaring migraine.";
 
-        File file = new File(prop.getProperty("filepath") + "src/com/company/text.txt");
+        File file = new File(dirPath + "src" + File.separator + "com" + File.separator + 
+                            "company" + File.separator + "text.txt");
         Scanner fileReader = new Scanner(file);
 
-        // For some reason the code yeets itself when there is too much text to parse, IDK why
-        /*
+        // Read a paragraph from a text file
+        String paragraph = "";
         while(fileReader.hasNextLine()) {   
-            sentence = fileReader.nextLine();
-            System.out.println(sentence);
-            String simpleSentence = lazyBook.simplifier(sentence, 1, 3);
-            System.out.println(simpleSentence);
+            paragraph = paragraph + fileReader.nextLine() + " ";
         }
+        paragraph = paragraph.trim();
         fileReader.close();
-        */
-
-        /*
-        String[] wordTokens = lazyBook.tokenizePuncutation(sentence);
-        for(int i = 0; i < wordTokens.length; i++) {
-            System.out.println(wordTokens[i]);
-        }
-        */
-
-        String simpleSentence = lazyBook.simplifier(sentence, 8, 10);
-
-        System.out.println(simpleSentence);
         
-        //POS result = null;
-        //lazyBook.getStem("boots", POS.NOUN);
+        String simpleSentence = lazyBook.simplifier(sentence, 4, 7);
+        System.out.println(simpleSentence);
+
+        System.out.println(lazyBook.simplifier(paragraph, 4, 7));
     }
 
     /**
@@ -115,23 +98,38 @@ public class LazyReader {
      * to return as a simpler String sentence
      */
     public String simplifier(String sentence, int min, int max) throws IOException {
+        // Check if sentence is empty and return if so
         if(sentence.equals("")) {
             return "";
-            //throw new IOException();
         }
+
         String simpleSentence = "";
         String[] wordTokens = tokenizePuncutation(sentence);
+
+        /*
+        for(int i = 0; i < wordTokens.length; i++) {
+            System.out.print(wordTokens[i] + " ");
+        }
+        */
+        
         String[] tokenTags = tagger(wordTokens);
         POS[] whichToSimplify = toSimplify(tokenTags);
 
+        // Fencepost part, the first part of the sentence should not have a " " + word to avoid
+        // extra whitespace
+        // If the POS is non-null, replace it in this step. Else concatenate like normal
         if(whichToSimplify[0] != null) {
-            // get the simplier synonym here and replace
+            // get the simplier synonym here and concatenate it to simpleSentence
             List<String> synonymList = getSynonyms(wordTokens[0], whichToSimplify[0]);
 
+            // if there are no synonyms or if the synonym is itself (by checking if the list is size one)
+            // concatenate the original word instead
             if(synonymList == null || synonymList.size() == 1) {
                 simpleSentence = simpleSentence + wordTokens[0];
             } else {
+                // Get the synonym closest to max (else it'll just be the lowest)
                 String simpleSyn = simplestSyn(min, max, synonymList);
+                // remember to repluralize if the word was originally plural
                 if(tokenTags[0].equals("NNS")) {
                     simpleSyn = English.plural(simpleSyn);
                 }
@@ -141,10 +139,10 @@ public class LazyReader {
         } else {
             simpleSentence = simpleSentence + wordTokens[0];
         }
-        // ALSO CHECK TO MAKE SURE IF wordTokens FALLS INTO A BETTER RANGE FOR MIN AND MAX THAN simpleSyn (line 155)
+        // Find synonyms and replace for the rest of the words in the sentence
         for(int i = 1; i < whichToSimplify.length; i++) {
             if(whichToSimplify[i] != null) {
-                // get the simplier synonym here and replace
+
                 List<String> synonymList = getSynonyms(wordTokens[i], whichToSimplify[i]);
                 
                 if(synonymList == null || synonymList.size() == 1) {
@@ -159,16 +157,18 @@ public class LazyReader {
                     simpleSentence = simpleSentence + " " + simpleSyn;
                 }
 
-            } else if (isPunctuation(tokenTags[i])) {
+            }
+            // if the token currently is a puncutation mark do not add an 
+            // extra space before (maintaining sentence spacing convention)
+            else if (isPunctuation(tokenTags[i])) {
                 simpleSentence = simpleSentence + wordTokens[i];
             } else {
                 simpleSentence = simpleSentence + " " + wordTokens[i];
             }
 
-            System.out.printf("|%s|, |%s|\n", tokenTags[i], wordTokens[i]);
+            //System.out.printf("|%s|, |%s|\n", tokenTags[i], wordTokens[i]);
         }
 
-        simpleSentence = simpleSentence.trim();
         return simpleSentence;
     }
 
@@ -197,22 +197,6 @@ public class LazyReader {
                 return true;
         }
         return false;
-    }
-
-    /**
-     * 
-     * @param difficulties - a list of the difficulties of the synonyms (in integer form)
-     * @return the index of the lowest difficulty synonym
-     */
-    private int getLowest(List<Integer> difficulties) {
-        int placement = 0;
-        for(int i = 0; i < difficulties.size(); i++) {
-            if(difficulties.get(i) < difficulties.get(placement)) {
-                placement = i;
-            }
-        }
-
-        return placement;
     }
 
     /**
@@ -252,18 +236,6 @@ public class LazyReader {
      * @throws IOException - 
      */
     private String simplestSyn(int min, int max, List<String> synonyms) throws IOException {
-        // Grab the difficulties of the synonyms and put them into a list
-        List<Integer> synonymDifficulty = new ArrayList<>();
-        for(int i = 0; i < synonyms.size(); i++) {
-            synonymDifficulty.add(classifier.wordClassification(synonyms.get(i)));
-        }
-
-        // save the current lowest difficutly synonym in case highestDiffSyn has no potential value
-        String lowestDiffSyn = "";
-        int lowest = getLowest(synonymDifficulty);
-        lowestDiffSyn = synonyms.get(lowest);
-
-        //System.out.println(lowestDiffSyn);
 
         Map<String, Integer> synDiffValueOrdered = new HashMap<>();
 
@@ -273,25 +245,34 @@ public class LazyReader {
 
         // sort the map by ascending order for value
         synDiffValueOrdered = sortByValue(synDiffValueOrdered);
+
+        // save the current lowest difficutly synonym in case highestDiffSyn has no potential value
+        String lowestDiffSyn = "";
+        boolean firstToken = true;
         
         // get the highestDiffSyn that is closest to the max and still above min
         String highestDiffSyn = "";
         for(String synonym : synDiffValueOrdered.keySet()) {
+            if(firstToken) {
+                // the first key in the map should be the lowest difficulty synonym
+                lowestDiffSyn = synonym;
+                firstToken = false;
+            }
             int diff = synDiffValueOrdered.get(synonym);
             //System.out.printf("%s %d\n", synonym, diff);
             if(diff >= min && diff <= max) {
                 highestDiffSyn = synonym;
             }
         }
-
+        //System.out.println(lowestDiffSyn);
         //System.out.println(highestDiffSyn);
 
-        // if such a synonym is not found, set it to the lowestDiffSyn and return it
+        // if such a synonym in range is not found, set it to the lowestDiffSyn and return it
         if(highestDiffSyn.equals("")) {
             highestDiffSyn = lowestDiffSyn;
         }
 
-        System.out.println(synDiffValueOrdered);
+        //System.out.println(synDiffValueOrdered);
         
         return highestDiffSyn;
     }
@@ -308,15 +289,14 @@ public class LazyReader {
 
         word = getStem(word, partOfSpeech);
         IIndexWord idxWord = dict.getIndexWord(word, partOfSpeech);
-        // .get() must be in stem form else it'll return null
         if(idxWord == null) {
             return null;
         }
+        // Get synonyms from the dictionary and add it to a list
         IWordID wordID = idxWord.getWordIDs().get(0);
         IWord dictWord = dict.getWord(wordID);
         ISynset synset = dictWord.getSynset();
         for(IWord w : synset.getWords()) {
-            //System.out.println(w.getLemma());
             synonyms.add(w.getLemma());
         }
 
@@ -332,14 +312,11 @@ public class LazyReader {
     private String getStem(String original, POS partOfSpeech) {
         IStemmer stemmer = new WordnetStemmer(dict);
         List<String> test = stemmer.findStems(original, partOfSpeech);
-        /*
-        for (int i = 0; i < test.size(); i++) {
-            System.out.println(test.get(i));
-        }
-        */
+
         if(!test.isEmpty()) {
             return test.get(0);
         }
+
         return original;
     }
 
@@ -352,8 +329,8 @@ public class LazyReader {
      * This function will return the sentence as an array of Strings by seperating them by puncutation
      */
     private String[] tokenizePuncutation(String sentence) throws IOException {
-        TokenizerModel modelToken = new TokenizerModel(inputStreamToken);
         Tokenizer tokenizer = new TokenizerME(modelToken);
+
         return tokenizer.tokenize(sentence);
     }
 

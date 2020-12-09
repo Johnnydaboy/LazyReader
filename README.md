@@ -15,3 +15,32 @@ The workspace contains two folders by default, where:
 ## Dependency Management
 
 The `JAVA DEPENDENCIES` view allows you to manage your dependencies. More details can be found [here](https://github.com/microsoft/vscode-java-pack/blob/master/release-notes/v0.9.0.md#work-with-jar-files-directly).
+
+## Purpose of the Software
+This LazyReader program classifies words in the English vocabulary based on the frequency of the word used in everyday life based on the NGLS database. It features several libraries: MIT JWI, OpenNLP, WordNet, and Apache to retrieve and replace synonyms of nouns based on the input level of "difficulty" by the user in the given sentence.
+
+## Getting Started
+![alt text](https://github.com/Johnnydaboy/LazyReader/blob/dev/pictures/constructor.PNG?raw=true)
+
+Construct all instances of the fields with all of the file paths to the libraries.
+
+![alt text](https://github.com/Johnnydaboy/LazyReader/blob/dev/pictures/main.PNG?raw=true)
+
+Specify the file path for the input stream and the libraries and create the LazyReader class called lazyBook which will contain all of the synonym replacing capabilities.
+
+![alt text](https://github.com/Johnnydaboy/LazyReader/blob/dev/pictures/main2.PNG?raw=true)
+
+Call the simplifier method by referencing the lazyBook class with the specified sentence and calling the minimum and maximum classification levels of synonyms. This method will print out a new string sentence with the nouns replaced by the specified classification levels
+
+## simplifier
+
+## DifficultyClassifier
+![alt text](https://github.com/Johnnydaboy/LazyReader/blob/dev/pictures/classifyFile.PNG?raw=true)
+
+Load the .txt file of the data of frequency of words.
+
+![alt text](https://github.com/Johnnydaboy/LazyReader/blob/dev/pictures/classifyMethod.PNG?raw=true)
+
+Returns an integer representing the difficulty level of the word selected. The classification is based on an exponential formula which is also based on the specified number of containers and divide the classification categories into the desired number of containers.
+
+## User Guide Video
