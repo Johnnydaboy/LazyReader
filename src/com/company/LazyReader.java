@@ -62,7 +62,7 @@ public class LazyReader {
     }
     
     public static void main(String[] args) throws Exception {
-        String dirPath = System.getProperty("user.dir") + File.separator + "LazyReader" + File.separator;
+        String dirPath = System.getProperty("user.dir") + File.separator;
         System.out.println(dirPath);
         LazyReader lazyBook = new LazyReader(dirPath);
         startLazyReader(dirPath, lazyBook);
