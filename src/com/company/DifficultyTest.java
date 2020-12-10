@@ -42,7 +42,7 @@ public class DifficultyTest {
      * @return - Map containing 10 randomlly selected words and their difficulties 
      * @throws IOException
      */
-    private Map<String, Integer> getRandomWords(DifficultyClassifier dClassifier) throws IOException {
+    public Map<String, Integer> getRandomWords(DifficultyClassifier dClassifier) throws IOException {
         Map<String, Integer> testWords =  new TreeMap<>();
         Random random = new Random();
         List<String> keys = new ArrayList<String>(dClassifier.cWords.keySet());
@@ -59,7 +59,7 @@ public class DifficultyTest {
      * @param test - Map containing a randomlly selected 10 words and their difficulty levels
      * @return - list of all the answers in y/n format from the test 
      */
-    private List<String> performTest(Map<String, Integer> test){
+    public List<String> performTest(Map<String, Integer> test){
         
         List<String> answers = new ArrayList<String>();
         //Scanner scanner = new Scanner(System.in);
@@ -89,7 +89,7 @@ public class DifficultyTest {
      * @return - integer representing the average difficulty level of all the missed questions
      *           rounded down to the nearest whole number
      */
-    private void testScore(Map<String, Integer> test, List<String> answers){
+    public void testScore(Map<String, Integer> test, List<String> answers){
         double answersCorrect = 0;
         int i = 0; 
         for (String word : test.keySet()) {
