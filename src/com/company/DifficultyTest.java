@@ -17,7 +17,7 @@ public class DifficultyTest {
     private int score; 
 
     public static void main(String[] args) throws Exception {
-        DifficultyClassifier WordClassifier = new DifficultyClassifier("/home/jonathanpi/Computer Science/LazyReader/");
+        DifficultyClassifier WordClassifier = new DifficultyClassifier("C:\\Users\\toaya\\Documents\\GitHub\\LazyReader");
         DifficultyTest test = new DifficultyTest(WordClassifier);
         Map<String, Integer> exam = new HashMap<>();
         exam = test.getRandomWords(WordClassifier);
