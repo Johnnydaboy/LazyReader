@@ -14,7 +14,6 @@ import opennlp.tools.tokenize.WhitespaceTokenizer;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -48,7 +47,7 @@ public class LazyReader {
      */
     public LazyReader(String dirPath) throws Exception {
         dict = new Dictionary(new File(dirPath + "src" + File.separator + "dict"));
-
+ 
         inputStreamPOS = new FileInputStream(dirPath + "lib" + File.separator + "en-pos-maxent.bin");
         modelPOS = new POSModel(inputStreamPOS);
         tagger = new POSTaggerME(modelPOS); 
@@ -63,6 +62,7 @@ public class LazyReader {
     
     public static void main(String[] args) throws Exception {
         String dirPath = System.getProperty("user.dir") + File.separator;
+        System.out.println(dirPath);
         LazyReader lazyBook = new LazyReader(dirPath);
         startLazyReader(dirPath, lazyBook);
     }
