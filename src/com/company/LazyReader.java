@@ -48,7 +48,7 @@ public class LazyReader {
      */
     public LazyReader(String dirPath) throws Exception {
         dict = new Dictionary(new File(dirPath + "src" + File.separator + "dict"));
-
+ 
         inputStreamPOS = new FileInputStream(dirPath + "lib" + File.separator + "en-pos-maxent.bin");
         modelPOS = new POSModel(inputStreamPOS);
         tagger = new POSTaggerME(modelPOS); 
@@ -62,7 +62,8 @@ public class LazyReader {
     }
     
     public static void main(String[] args) throws Exception {
-        String dirPath = System.getProperty("user.dir") + File.separator;
+        String dirPath = System.getProperty("user.dir") + File.separator + "LazyReader" + File.separator;
+        System.out.println(dirPath);
         LazyReader lazyBook = new LazyReader(dirPath);
         startLazyReader(dirPath, lazyBook);
     }
