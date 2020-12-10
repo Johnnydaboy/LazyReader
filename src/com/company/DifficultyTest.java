@@ -1,7 +1,6 @@
 package com.company;
 
 import java.io.IOException;
-import java.time.Year;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -75,7 +74,10 @@ public class DifficultyTest {
                 Scanner sc = new Scanner(System.in);
                 System.out.println("Do you know the defenition/meaning of: " + word);
                 ans = sc.nextLine().toLowerCase();
+                sc.close();
             }
+
+            scanner.close();
 
             answers.add(ans);
         }
