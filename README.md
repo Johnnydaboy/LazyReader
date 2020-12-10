@@ -27,27 +27,20 @@ Construct all instances of the fields with all of the file paths to the librarie
 
 ![alt text](https://github.com/Johnnydaboy/LazyReader/blob/master/pictures/mainFinal.PNG?raw=true)
 
-Create the LazyReader class called lazyBook which will contain all of the synonym replacing capabilities. Also, using a scanner, specify a file path to a .txt file to read more than one sentence and run the simplifier method for individual sentences within the .txt file.
+Specify the directory to the class. Then create the LazyReader class called lazyBook which will contain all of the synonym replacing capabilities. Call the startLazyReader method to set the classification of the minimum and maximum difficulties and the program will simplify the specified sentences.
 
 ## startLazyReader
 ![alt text](https://github.com/Johnnydaboy/LazyReader/blob/master/pictures/startLazyReader.PNG?raw=true)
 ![alt text](https://github.com/Johnnydaboy/LazyReader/blob/master/pictures/startLazyReader2.PNG?raw=true)
 
-Call the startLazyReader in main, with the parameters of directory path of lazyReader and the LazyReader class lazyBook which we create in the main. Then the console will prompt the classifier questions to choose the minimum and maximum level classifications manually or through a test. Then call the simplifier method by referencing the lazyBook class with the specified sentence and calling the minimum and maximum classification levels of synonyms. This method will print out a new string sentence with the nouns replaced by the specified classification levels
+Call the startLazyReader in main, with the parameters of directory path of lazyReader and the LazyReader class lazyBook which we create in the main. Then the console will prompt the classifier questions to choose the minimum and maximum level classifications manually or through a test. Then call the simplifier method by referencing the lazyBook class with the specified sentence and calling the minimum and maximum classification levels of synonyms. This method will print out a new string sentence with the nouns replaced by the specified classification levels. Then specify the directory of the .txt file containing the sentences that you want to simplify (line 103).
 
 ## simplifier
 ![alt text](https://github.com/Johnnydaboy/LazyReader/blob/dev/pictures/simplifer1.PNG?raw=true)
 
 In order to user WordNet, we need to convert OpenNLP (line 110).
+
 ![alt text](https://github.com/Johnnydaboy/LazyReader/blob/dev/pictures/simplifier2.PNG?raw=true)
 
-## DifficultyClassifier
-![alt text](https://github.com/Johnnydaboy/LazyReader/blob/dev/pictures/classifyFile.PNG?raw=true)
-
-Load the .txt file of the data of frequency of words.
-
-![alt text](https://github.com/Johnnydaboy/LazyReader/blob/dev/pictures/classifyMethod.PNG?raw=true)
-
-Returns an integer representing the difficulty level of the word selected. The classification is based on an exponential formula which is also based on the specified number of containers and divide the classification categories into the desired number of containers.
 
 ## User Guide Video
