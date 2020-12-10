@@ -62,47 +62,9 @@ public class LazyReader {
     }
     
     public static void main(String[] args) throws Exception {
-
-
         String dirPath = System.getProperty("user.dir") + File.separator;
-
         LazyReader lazyBook = new LazyReader(dirPath);
-
         startLazyReader(dirPath, lazyBook);
-
-        /*
-        String dirPath = System.getProperty("user.dir") + File.separator;
-
-        LazyReader lazyBook = new LazyReader(dirPath);
-
-        String sentence = "I woke up to a pounding headache and a roaring migraine.";
-        sentence = "Children cause headaches to humans all over the county and across the macrocosm.";
-
-        File file = new File(dirPath + "src" + File.separator + "com" + File.separator + 
-                            "company" + File.separator + "text.txt");
-        Scanner fileReader = new Scanner(file);
-
-        // Read a paragraph from a text file
-        String paragraph = "";
-        while(fileReader.hasNextLine()) {   
-            paragraph = paragraph + fileReader.nextLine() + " ";
-        }
-        paragraph = paragraph.trim();
-        fileReader.close();
-
-        DifficultyTest test = new DifficultyTest(lazyBook.gDifficultyClassifier());
-
-        Map<String, Integer> exam = new HashMap<>();
-        exam = test.getRandomWords(lazyBook.gDifficultyClassifier());
-        System.out.println(exam);
-        test.testScore(exam, test.performTest(exam));
-        System.out.println(test.getMinScore() + " " + test.getMaxScore());
-        
-        String simpleSentence = lazyBook.simplifier(sentence, 1, 4);
-        System.out.println(simpleSentence);
-
-        System.out.println(lazyBook.simplifier(paragraph, test.getMinScore(), test.getScore()));
-        */
     }
     
     public static void startLazyReader(String dirPath, LazyReader lazyBook) throws Exception {
@@ -173,14 +135,7 @@ public class LazyReader {
         }
 
         String simpleSentence = "";
-        String[] wordTokens = tokenizePuncutation(sentence);
-
-        /*
-        for(int i = 0; i < wordTokens.length; i++) {
-            System.out.print(wordTokens[i] + " ");
-        }
-        */
-        
+        String[] wordTokens = tokenizePuncutation(sentence)''
         String[] tokenTags = tagger(wordTokens);
         POS[] whichToSimplify = toSimplify(tokenTags);
 
@@ -204,12 +159,9 @@ public class LazyReader {
                 }
                 simpleSentence = simpleSentence + simpleSyn;
             }
-
         } else {
             simpleSentence = simpleSentence + wordTokens[0];
         }
-        // System.out.printf("|%s|, |%s|\n", tokenTags[0], wordTokens[0]);
-        // Find synonyms and replace for the rest of the words in the sentence
         for(int i = 1; i < whichToSimplify.length; i++) {
             if(whichToSimplify[i] != null) {
 
@@ -221,9 +173,7 @@ public class LazyReader {
                     String simpleSyn = simplestSyn(min, max, synonymList);
                     if(tokenTags[i].equals("NNS")) {
                         simpleSyn = English.plural(simpleSyn);
-                        //System.out.printf("%s NNS\n", simpleSyn);
                     }
-                    //System.out.printf("%s NN\n", simpleSyn);
                     simpleSentence = simpleSentence + " " + simpleSyn;
                 }
 
@@ -235,8 +185,6 @@ public class LazyReader {
             } else {
                 simpleSentence = simpleSentence + " " + wordTokens[i];
             }
-
-            //System.out.printf("|%s|, |%s|\n", tokenTags[i], wordTokens[i]);
         }
 
         return simpleSentence;
@@ -329,21 +277,14 @@ public class LazyReader {
                 firstToken = false;
             }
             int diff = synDiffValueOrdered.get(synonym);
-            //System.out.printf("%s %d\n", synonym, diff);
             if(diff >= min && diff <= max) {
                 highestDiffSyn = synonym;
             }
         }
-        //System.out.println(lowestDiffSyn);
-        //System.out.println(highestDiffSyn);
-
         // if such a synonym in range is not found, set it to the lowestDiffSyn and return it
         if(highestDiffSyn.equals("")) {
             highestDiffSyn = lowestDiffSyn;
         }
-
-        //System.out.println(synDiffValueOrdered);
-        
         return highestDiffSyn;
     }
 
@@ -454,7 +395,6 @@ public class LazyReader {
      * This method will take in a String POS (from opennlp) and convert it into a WordNet POS
      */
     private POS nounTags(String token) {
-        //System.out.printf("inside nounTags: %s\n", token);
         switch(token) {
             case "NN": 
                 return POS.NOUN;
