@@ -14,18 +14,32 @@ OpenNLP tags[NNS         NN       NNS          TO    NNS       DT     IN      nD
 WordNet Tags[NOUN        NOUN     NOUN         null  NOUN      null   null    null   NOUN      null   null      null   NOUN     null]
 Pluralize   [p           s        p            x     p         x      x       x      s         x      x         x      s        x   ]
 
-Anything synonym replacing a token corresponding to NNS (see Children, NNS, NOUN, p), needs to be re-pluralized late on (kid -> kids) and sent back to following the original grammar of the sentence.
+Anything synonym replacing a token corresponding to NNS (see column one above: Children, NNS, NOUN, p), needs to be re-pluralized late on (kid -> kids) and sent back to following the original grammar of the sentence.
 
 This difficulty level is based on a database of word which is sorted from most to least frequent (we are making the assumption that more frequent words are less difficult), it is also able to take in any other database of words which is classified from most to least frequent or from least to most difficult. The DifficultyClassifier Class will provide difficulties to each of the words in the database according which will be used in the LazyReader (see DifficultyClassifier below for more detail).
 
 In order to replace a difficult noun with a simpler one the LazyReader Class will follow a specific set of instructions. First it must identify that the noun indeed has synonyms (else the noun will be returned into the altered “simpler” sentence as it), it will then rank the synonyms from least to most difficult based on the DifficultyClassifier, it will then proceed to pick the synonym closest to the upper bound of the difficulty range (i.e. if range is 5-8, it’ll try to get the synonym closest to difficulty 8) and if a synonym is not found in the range it’ll return the lowest difficulty synonym within the synonym list. This synonym will then go on to replace the original word in the sentence and be pluralized accordingly as we change it to its stem (root aka. most likely singular) form while processing it. The resulting altered sentence will be returned and printed to the console. 
 
-LazyReader Class: 
-The LazyReader class is the main class that will simplify a sentence. LazyReader will use OpenNLP to first tokenize a sentence that is passed to it. It will determine the POS of each word and provide the POS tags of each word in a separate array. WordNet classifies the POS words with great details. However, for out implementation, we are only interested if the word is a noun, verb, etc. Utilizing the POS tags array, we extract just the first letter of each tag as that determines the simple POS. Using this data, we determine which words are nouns and need to be checked for difficulty. As of now, we are only replacing nouns since verb replacement will require correct identification verb tense and application of said verb tense to the synonym replacement.  
-LazyReader utilizes the POS classification provided by OpenNLP to determine the difficulty level of each noun in the sentence. The word will be replaced if its difficulty classification is above a set amount. To replace a word, synonyms are provided by WordNet. Since multiple synonyms are provided, the synonym that is classified with the least difficulty is used. 
+e.g. 
+"Children cause headaches to humans all over the country and across the macrocosm."
+->
+"kids cause worries to men all over the land and across the world"
+
+
 
 DifficultyClassifier Class: 
-The DifficultyClassifier class is utilized to parse data from a .txt file containing a sorted list of the most commonly used words in the English language and classify them. Difficulty is determined by the number of containers specified by the user. If the user does not define the container count, the program will default to 10 containers. Classification occurs on an exponential scale. The first container will contain 2x words, second container will container 4x words, third container will contain 8x words, and so on. The last container is always reserved for words that are not included in the .txt document with most used words. The classified words are placed into a map where the key is the word and the corresponding value is the classification integer. 
+The DifficultyClassifier class is utilized to parse data from a .txt file containing a sorted list of the most commonly used words in the English language and classify them (can also use any other text document of words in order of least to most difficulty or any other difficulty related way of ranking English words). Difficulty is determined by the number of containers specified by the user. If the user does not define the container count, the program will default to 10 containers. Classification occurs on an exponential scale. 
+The first container will contain 2x words, second container will container 4x words, third container will contain 8x words, and so on. 
+
+bin 1: x 
+bin 2: 2x 
+bin 3: 4x 
+bin 4: 8x
+....
+
+x = words in document/ total bins added up (x + 2x + 4x...)
+
+The last container is always reserved for words that are not included in the .txt document with most used words. The classified words are placed into a map where the key is the word and the corresponding value (the difficulty) is the classification integer (which difficulty bin does it belong to). 
 
 Future Improvements: 
 LazyReader has very limited functionality in this release version. Currently there is no support for word replacement other than nouns. The main reasoning behind this is POS like verbs require us to identify and then apply the correct verb tense to the replacement word. While OpenNLP does identity the verb tense, we did not have time to implement a verb tense modifier for the synonym word. OpenNLP does not container functionality to do this. However, the Stanford University NLP API contains functionality that allows for verb tense conversion that can be utilized in the future. Additionally, future releases of this program will include a difficulty test functionality where a user will be able to take a short exam with words to determine their current reading level. Utilizing this data, we will be able to select appropriate words to replace based on the user. This functionality has been abstracted, implementation did not occur due to time restrictions. 
