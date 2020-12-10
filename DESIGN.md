@@ -11,11 +11,13 @@ The LazyReader class is the main class that will simplify a sentence. LazyReader
 
 |Sentence    |Children|cause|headaches|to  |humans|all |over|the |county|and |across|the |macrocasm|
 |------------|--------|-----|---------|----|------|----|----|----|------|----|------|----|---------|
-|OpenNLP tags|NNS     |NN   |NNS      |TO  |  NNS |DT  |IN  |nDT |NN    |CC  |IN    |DT  |NN       |
+|OpenNLP tags|NNS     |NN   |NNS      |TO  |NNS   |DT  |IN  |nDT |NN    |CC  |IN    |DT  |NN       |
 |WordNet tags|NOUN    |NOUN |NOUN     |null|NOUN  |null|null|null|NOUN  |null|null  |null|NOUN     |
 |Pluralize   |p       |s    |p        |x   |p     |x   |x   |x   |s     |x   |x     |x   |s        |
 
-Anything synonym replacing a token corresponding to NNS (see column one above: Children, NNS, NOUN, p), needs to be re-pluralized late on (kid -> kids) and sent back to following the original grammar of the sentence.
+*Note: As you can see the POS tagger is not 100% perfect (as it is just a model), as shown by the fact that cause is being identified as a noun rather than a verb.
+
+Anything synonym replacing a token corresponding to NNS (see column one above: Children, NNS, NOUN, p), needs to be re-pluralized late on (kid -> kids) and sent back to following the original grammar of the sentence. 
 
 This difficulty level is based on a database of word which is sorted from most to least frequent (we are making the assumption that more frequent words are less difficult), it is also able to take in any other database of words which is classified from most to least frequent or from least to most difficult. The DifficultyClassifier Class will provide difficulties to each of the words in the database according which will be used in the LazyReader (see DifficultyClassifier below for more detail).
 
