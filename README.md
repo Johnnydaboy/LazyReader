@@ -21,15 +21,19 @@ The `JAVA DEPENDENCIES` view allows you to manage your dependencies. More detail
 This LazyReader program classifies words in the English vocabulary based on the frequency of the word used in everyday life based on the NGLS database. It features several libraries: MIT JWI, OpenNLP, WordNet, and Apache to retrieve and replace synonyms of nouns based on the input level of "difficulty" by the user in the given sentence.
 
 ## Getting Started
-![alt text](https://github.com/Johnnydaboy/LazyReader/blob/dev/pictures/constructor.PNG?raw=true)
+![alt text](https://github.com/Johnnydaboy/LazyReader/blob/master/pictures/constructorFinal.PNG?raw=true)
 
-Construct all instances of the fields with all of the file paths to the libraries.
+Construct all instances of the fields with all of the file paths to the libraries and specify the file path for the input stream and the libraries.
 
-![alt text](https://github.com/Johnnydaboy/LazyReader/blob/dev/pictures/mainAll.PNG?raw=true)
+![alt text](https://github.com/Johnnydaboy/LazyReader/blob/master/pictures/mainFinal.PNG?raw=true)
 
-Specify the file path for the input stream and the libraries and create the LazyReader class called lazyBook which will contain all of the synonym replacing capabilities. Also, using a scanner, specify a file path to a .txt file to read more than one sentence and run the simplifier method for individual sentences within the .txt file.
+Create the LazyReader class called lazyBook which will contain all of the synonym replacing capabilities. Also, using a scanner, specify a file path to a .txt file to read more than one sentence and run the simplifier method for individual sentences within the .txt file.
 
-Call the simplifier method by referencing the lazyBook class with the specified sentence and calling the minimum and maximum classification levels of synonyms. This method will print out a new string sentence with the nouns replaced by the specified classification levels
+## startLazyReader
+![alt text](https://github.com/Johnnydaboy/LazyReader/blob/master/pictures/startLazyReader.PNG?raw=true)
+![alt text](https://github.com/Johnnydaboy/LazyReader/blob/master/pictures/startLazyReader2.PNG?raw=true)
+
+Call the startLazyReader in main, with the parameters of directory path of lazyReader and the LazyReader class lazyBook which we create in the main. Then the console will prompt the classifier questions to choose the minimum and maximum level classifications manually or through a test. Then call the simplifier method by referencing the lazyBook class with the specified sentence and calling the minimum and maximum classification levels of synonyms. This method will print out a new string sentence with the nouns replaced by the specified classification levels
 
 ## simplifier
 ![alt text](https://github.com/Johnnydaboy/LazyReader/blob/dev/pictures/simplifer1.PNG?raw=true)
