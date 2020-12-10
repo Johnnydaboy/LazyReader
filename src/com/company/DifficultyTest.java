@@ -61,7 +61,6 @@ public class DifficultyTest {
     public List<String> performTest(Map<String, Integer> test){
         
         List<String> answers = new ArrayList<String>();
-        //Scanner scanner = new Scanner(System.in);
         System.out.println("Insutrctions: Type Y or y for Yes and N or n for No");
         Scanner scanner = new Scanner(System.in);
         for (String word : test.keySet()){
