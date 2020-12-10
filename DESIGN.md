@@ -73,5 +73,17 @@ Prompt the user to input the maximum level and make sure it is an integer from 0
 ## DifficultyTest Class 
 The DifficultyTest Class is primarily used to determine the reading level of each user. By default, when this options is chosen over manual difficulty selection, the user will be given a 10 question quiz. DifficultyTest will randomlly pull 10 words from mostFreqWords.txt and ask if the user knows the word. Using scanner, we take y/n input from the user for each of the 10 questions. The answers are stored in a 1D String array that will be used to calculate the overall score of the user. Using the count of correct answers, a range is set for acceptable difficulty level. This test is unique in that it can either simplify sentences based on the score of the test, or sentences can be made more complicated to challenge the user. 
 
+Randomlly store 10 words and their corresponding difficulty score. 
+
+![alt text](https://github.com/Johnnydaboy/LazyReader/blob/dev/pictures/DifficultyTest_getRandomWords.PNG?raw=true)
+
+Perform the test using the random words from the getDifficultyTest method. Prompt user to enter y/n depending on if they know the word. If a character other than y/n or Y/N is entered, user will be prompted to enter a valid input. Adds answer provided by the user into an array. 
+
+![alt text](https://github.com/Johnnydaboy/LazyReader/blob/dev/pictures/DifficultyTest_performTest.PNG?raw=true)
+
+Score the test based on how many words the user answers "y" to. Calculate range for word difficulty. 
+
+![alt text](https://github.com/Johnnydaboy/LazyReader/blob/dev/pictures/DifficultyTest_testScore.PNG?raw=true)
+
 ## Future Improvements: 
 LazyReader has very limited functionality in this release version. Currently there is no support for word replacement other than nouns. The main reasoning behind this is POS like verbs require us to identify and then apply the correct verb tense to the replacement word. While OpenNLP does identity the verb tense, we did not have time to implement a verb tense modifier for the synonym word. OpenNLP does not container functionality to do this. However, the Stanford University NLP API contains functionality that allows for verb tense conversion that can be utilized in the future. Additionally, future releases of this program will include a difficulty test functionality where a user will be able to take a short exam with words to determine their current reading level. Utilizing this data, we will be able to select appropriate words to replace based on the user. This functionality has been abstracted, implementation did not occur due to time restrictions. 
