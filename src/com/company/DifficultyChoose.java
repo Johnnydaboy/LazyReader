@@ -7,9 +7,11 @@ public class DifficultyChoose {
         int max = 0;
         Scanner input = new Scanner(System.in);
         boolean minIsLessThanMax = false;
+        // Exit while loop when min is less than max
         while (!minIsLessThanMax) {
             System.out.println("Insutrctions: Type in the minimum level of difficulty you want to choose from 0 to 9.");
             boolean minGot = false;
+            // Exit loop when min has been set
             while(!minGot) {
                 if (input.hasNextInt()) {
                     int minTemp = input.nextInt();
@@ -24,6 +26,7 @@ public class DifficultyChoose {
                 }
             }
             boolean maxGot = false;
+            // Exit when max has been set
             while (!maxGot) {
                 System.out.println("Insutrctions: Type in the maximum level of difficulty you want to choose from 0 to 9.");
                 if (input.hasNextInt()) {
@@ -41,6 +44,7 @@ public class DifficultyChoose {
             if (min > max) {
                 System.out.println("ERROR: minimum level has to be less than maximum.");
             } else {
+                // Check if min is less than max to exit the while loop.
                 minIsLessThanMax = true;
             }
         }
