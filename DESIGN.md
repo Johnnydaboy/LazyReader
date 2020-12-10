@@ -59,6 +59,11 @@ x = words in document/ total bins added up (x + 2x + 4x...)
 
 The last container is always reserved for words that are not included in the .txt document with most used words. The classified words are placed into a map where the key is the word and the corresponding value (the difficulty) is the classification integer (which difficulty bin does it belong to). 
 
+Classifies words based on an exponential pattern. Uses scanner to read a document with most commonlly used words at the top of the document sorted in decending order. Words and their corresponding difficulty classification are stored in a map. 
+
+
+Method to identify the difficulty of specific word. If the word has not been classified, it is not contained in the current word dataset. Therefore, it is assigned the last container. Last container corresponds to the most difficult words. 
+
 ## DifficultyChoose Class
 The DifficultyChoose Class is used to prompt the user to manually enter in their own minimum and maximum classification levels through a scanner in the console. The scanner will prompt the user to first enter a minimum difficulty level from 0 to 9, then the maximum level from 0 to 9. The difficulty level must be entered as an integer, not a string, and will prompt an error message and ask the user to reenter levels if the maximum level is less than the minimum level. After the scanner has received inputs, the min and max variables will be updated as the input from the scanner.
 
