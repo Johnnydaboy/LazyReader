@@ -135,7 +135,7 @@ public class LazyReader {
         }
 
         String simpleSentence = "";
-        String[] wordTokens = tokenizePuncutation(sentence)''
+        String[] wordTokens = tokenizePuncutation(sentence);
         String[] tokenTags = tagger(wordTokens);
         POS[] whichToSimplify = toSimplify(tokenTags);
 
