@@ -9,11 +9,6 @@ The program utilizes Apache OpenNLP, WordNet, and Apache Evo Inflector APIs. Ope
 ## LazyReader Class: 
 The LazyReader class is the main class that will simplify a sentence. LazyReader will use OpenNLP to first tokenize a sentence that is passed to it. It will determine the POS of each word and provide the POS tags of each word in a separate array. In order to utilize these POS tokens into WordNet we must then also convert the OpenNLP POS tags int WordNet POS tags and store that as a separate array; we do this by passing any OpenNLP POS tag and changing it to its WordNet POS tag equivalent. Using these arrays, we can determine which nouns need replacing and once replaced do we need to convert the root form of the noun back into plural form. We then replace the noun with a synonym set by a difficulty range specified by either taking the test or by the user.
 
-Sentence:   "Children    cause    headaches    to    humans    all    over    the    county    and    across    the    macrocasm."
-OpenNLP tags[NNS         NN       NNS          TO    NNS       DT     IN      nDT    NN        CC     IN        DT     NN       .   ]
-WordNet Tags[NOUN        NOUN     NOUN         null  NOUN      null   null    null   NOUN      null   null      null   NOUN     null]
-Pluralize   [p           s        p            x     p         x      x       x      s         x      x         x      s        x   ]
-
 |Sentence    |Children|cause|headaches|to  |humans|all |over|the |county|and |across|the |macrocasm|
 |------------|--------|-----|---------|----|------|----|----|----|------|----|------|----|---------|
 |OpenNLP tags|NNS     |NN   |NNS      |TO  |  NNS |DT  |IN  |nDT |NN    |CC  |IN    |DT  |NN       |
@@ -64,18 +59,16 @@ x = words in document/ total bins added up (x + 2x + 4x...)
 
 The last container is always reserved for words that are not included in the .txt document with most used words. The classified words are placed into a map where the key is the word and the corresponding value (the difficulty) is the classification integer (which difficulty bin does it belong to). 
 
-![alt text](https://github.com/Johnnydaboy/LazyReader/blob/dev/pictures/classifyFile.PNG?raw=true)
-
-Load the .txt file of the data of frequency of words.
-
-![alt text](https://github.com/Johnnydaboy/LazyReader/blob/dev/pictures/classifyMethod.PNG?raw=true)
-
-Returns an integer representing the difficulty level of the word selected. The classification is based on an exponential formula which is also based on the specified number of containers and divide the classification categories into the desired number of containers.
-
 ## DifficultyChoose Class
 The DifficultyChoose Class is used to prompt the user to manually enter in their own minimum and maximum classification levels through a scanner in the console. The scanner will prompt the user to first enter a minimum difficulty level from 0 to 9, then the maximum level from 0 to 9. The difficulty level must be entered as an integer, not a string, and will prompt an error message and ask the user to reenter levels if the maximum level is less than the minimum level. After the scanner has received inputs, the min and max variables will be updated as the input from the scanner.
 
+![alt text](https://github.com/Johnnydaboy/LazyReader/blob/dev/pictures/chooseFinal.PNG?raw=true)
 
+Prompt the user to input the minimum level and make sure it is an integer from 0 to 9.
+
+![alt text](https://github.com/Johnnydaboy/LazyReader/blob/dev/pictures/chooseFinal2.PNG?raw=true)
+
+Prompt the user to input the maximum level and make sure it is an integer from 0 to 9. Then check to see if min is less than max, otherwise prompt the user to enter the correct numbers.
 
 ## Future Improvements: 
 LazyReader has very limited functionality in this release version. Currently there is no support for word replacement other than nouns. The main reasoning behind this is POS like verbs require us to identify and then apply the correct verb tense to the replacement word. While OpenNLP does identity the verb tense, we did not have time to implement a verb tense modifier for the synonym word. OpenNLP does not container functionality to do this. However, the Stanford University NLP API contains functionality that allows for verb tense conversion that can be utilized in the future. Additionally, future releases of this program will include a difficulty test functionality where a user will be able to take a short exam with words to determine their current reading level. Utilizing this data, we will be able to select appropriate words to replace based on the user. This functionality has been abstracted, implementation did not occur due to time restrictions. 
