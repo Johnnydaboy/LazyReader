@@ -11,7 +11,10 @@ import java.util.Scanner;
 import java.util.TreeMap;
 
 public class DifficultyTest {
-    DifficultyClassifier WordC;
+    DifficultyClassifier wordC;
+    private int minScore; 
+    private int maxScore; 
+    private int score; 
 
     public static void main(String[] args) throws Exception {
         DifficultyClassifier WordClassifier = new DifficultyClassifier("/home/jonathanpi/Computer Science/LazyReader/");
@@ -19,8 +22,9 @@ public class DifficultyTest {
         Map<String, Integer> exam = new HashMap<>();
         exam = test.getRandomWords(WordClassifier);
         System.out.println(exam);
-        int score = test.testScore(exam, test.performTest(exam));
-        System.out.println(score);
+        test.testScore(exam, test.performTest(exam));
+        System.out.println(test.getMinScore() + " " + test.getMaxScore());
+
     }
 
     /**
@@ -28,7 +32,7 @@ public class DifficultyTest {
      * Constructor
      */
     public DifficultyTest(DifficultyClassifier dClassifier) {
-        WordC = dClassifier;
+        wordC = dClassifier;
     }
 
     /**
@@ -38,7 +42,7 @@ public class DifficultyTest {
      * @return - Map containing 10 randomlly selected words and their difficulties 
      * @throws IOException
      */
-    private Map<String, Integer> getRandomWords(DifficultyClassifier dClassifier) throws IOException {
+    public Map<String, Integer> getRandomWords(DifficultyClassifier dClassifier) throws IOException {
         Map<String, Integer> testWords =  new TreeMap<>();
         Random random = new Random();
         List<String> keys = new ArrayList<String>(dClassifier.cWords.keySet());
@@ -55,7 +59,7 @@ public class DifficultyTest {
      * @param test - Map containing a randomlly selected 10 words and their difficulty levels
      * @return - list of all the answers in y/n format from the test 
      */
-    private List<String> performTest(Map<String, Integer> test){
+    public List<String> performTest(Map<String, Integer> test){
         
         List<String> answers = new ArrayList<String>();
         //Scanner scanner = new Scanner(System.in);
@@ -85,18 +89,37 @@ public class DifficultyTest {
      * @return - integer representing the average difficulty level of all the missed questions
      *           rounded down to the nearest whole number
      */
-    private int testScore(Map<String, Integer> test, List<String> answers){
-        double answersWrong = 0;
-        double ansWrongDiff = 0;
+    public void testScore(Map<String, Integer> test, List<String> answers){
+        double answersCorrect = 0;
         int i = 0; 
         for (String word : test.keySet()) {
-            if(answers.get(i).equals("n")){
-                ansWrongDiff += test.get(word); 
-                answersWrong++;
+            if(answers.get(i).equals("y")){
+                answersCorrect++;
             }
             i++;
         }
-        return (int) Math.floor(ansWrongDiff / answersWrong);
+        score = (int) answersCorrect; 
+        minScore = (int)(answersCorrect - answersCorrect/2);
+        maxScore = (int)(answersCorrect + answersCorrect/2);
+        if(minScore < 1) { 
+            minScore = 1;
+        }
+        if(maxScore > wordC.getContainerCount()){
+            maxScore = wordC.getContainerCount();
+        }
+
+    }
+
+    public int getMinScore(){
+        return minScore; 
+    }
+    
+    public int getMaxScore(){
+        return maxScore; 
+    }
+
+    public int getScore(){
+        return score; 
     }
         
 }

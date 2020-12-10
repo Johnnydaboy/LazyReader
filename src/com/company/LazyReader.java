@@ -68,6 +68,7 @@ public class LazyReader {
         LazyReader lazyBook = new LazyReader(dirPath);
 
         String sentence = "I woke up to a pounding headache and a roaring migraine.";
+        sentence = "Children cause headaches to humans all over the county and across the macrocosm.";
 
         File file = new File(dirPath + "src" + File.separator + "com" + File.separator + 
                             "company" + File.separator + "text.txt");
@@ -80,11 +81,19 @@ public class LazyReader {
         }
         paragraph = paragraph.trim();
         fileReader.close();
+
+        DifficultyTest test = new DifficultyTest(lazyBook.gDifficultyClassifier());
+
+        Map<String, Integer> exam = new HashMap<>();
+        exam = test.getRandomWords(lazyBook.gDifficultyClassifier());
+        System.out.println(exam);
+        test.testScore(exam, test.performTest(exam));
+        System.out.println(test.getMinScore() + " " + test.getMaxScore());
         
-        String simpleSentence = lazyBook.simplifier(sentence, 4, 7);
+        String simpleSentence = lazyBook.simplifier(sentence, 1, 4);
         System.out.println(simpleSentence);
 
-        System.out.println(lazyBook.simplifier(paragraph, 4, 7));
+        System.out.println(lazyBook.simplifier(paragraph, test.getMinScore(), test.getScore()));
     }
 
     /**
@@ -139,6 +148,7 @@ public class LazyReader {
         } else {
             simpleSentence = simpleSentence + wordTokens[0];
         }
+        System.out.printf("|%s|, |%s|\n", tokenTags[0], wordTokens[0]);
         // Find synonyms and replace for the rest of the words in the sentence
         for(int i = 1; i < whichToSimplify.length; i++) {
             if(whichToSimplify[i] != null) {
@@ -166,7 +176,7 @@ public class LazyReader {
                 simpleSentence = simpleSentence + " " + wordTokens[i];
             }
 
-            //System.out.printf("|%s|, |%s|\n", tokenTags[i], wordTokens[i]);
+            System.out.printf("|%s|, |%s|\n", tokenTags[i], wordTokens[i]);
         }
 
         return simpleSentence;
@@ -395,4 +405,7 @@ public class LazyReader {
         return null;
     }   
     
+    public DifficultyClassifier gDifficultyClassifier() {
+        return classifier;
+    }
 }
