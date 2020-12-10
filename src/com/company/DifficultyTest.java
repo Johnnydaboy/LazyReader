@@ -16,7 +16,7 @@ public class DifficultyTest {
     private int score; 
 
     public static void main(String[] args) throws Exception {
-        DifficultyClassifier WordClassifier = new DifficultyClassifier("C:\\Users\\toaya\\Documents\\GitHub\\LazyReader");
+        DifficultyClassifier WordClassifier = new DifficultyClassifier("C:\\Users\\toaya\\Documents\\GitHub\\LazyReader\\");
         DifficultyTest test = new DifficultyTest(WordClassifier);
         Map<String, Integer> exam = new HashMap<>();
         exam = test.getRandomWords(WordClassifier);
@@ -66,7 +66,7 @@ public class DifficultyTest {
         for (String word : test.keySet()){
             Scanner scanner = new Scanner(System.in);
             System.out.println("Do you know the defenition/meaning of: " + word);
-            String ans = scanner.nextLine().toLowerCase();
+            String ans = scanner.nextLine();
             
             // If user does not input either Y/y or N/n, question will be asked again until valid input 
             while (!ans.equals("n") && !ans.equals("y")){
@@ -77,7 +77,7 @@ public class DifficultyTest {
                 sc.close();
             }
 
-            scanner.close();
+            //scanner.close();
 
             answers.add(ans);
         }
