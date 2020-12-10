@@ -62,7 +62,15 @@ public class LazyReader {
     }
     
     public static void main(String[] args) throws Exception {
-        //System.out.println(System.getProperty("user.dir") + File.separator);
+
+
+        String dirPath = System.getProperty("user.dir") + File.separator;
+
+        LazyReader lazyBook = new LazyReader(dirPath);
+
+        startLazyReader(dirPath, lazyBook);
+
+        /*
         String dirPath = System.getProperty("user.dir") + File.separator;
 
         LazyReader lazyBook = new LazyReader(dirPath);
@@ -94,6 +102,58 @@ public class LazyReader {
         System.out.println(simpleSentence);
 
         System.out.println(lazyBook.simplifier(paragraph, test.getMinScore(), test.getScore()));
+        */
+    }
+    
+    public static void startLazyReader(String dirPath, LazyReader lazyBook) throws Exception {
+
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Do you want to set your own difficulty range? (y/n)");
+        String ans = scanner.nextLine().toLowerCase();
+
+        int min = 1;
+        int max = 1;
+        
+        // If user does not input either Y/y or N/n, question will be asked again until valid input 
+        while (!ans.equals("n") && !ans.equals("y")){
+            System.out.println("Incorrect input, please enter either Y/y or N/n.");
+            System.out.println("Do you want to set your own difficulty range? (y/n)");
+            ans = scanner.nextLine().toLowerCase();
+        }
+        // If user wants to set their own range
+        if(ans.equals("y")) {
+            DifficultyChoose getRange = new DifficultyChoose(scanner);
+            min = getRange.getMin();
+            max = getRange.getMax();
+        } 
+        // If user wants to take test to set the range
+        else {
+            DifficultyTest test = new DifficultyTest(lazyBook.gDifficultyClassifier());
+
+            Map<String, Integer> exam = new HashMap<>();
+            exam = test.getRandomWords(lazyBook.gDifficultyClassifier());
+            test.testScore(exam, test.performTest(exam));
+
+            min = test.getMinScore();
+            max = test.getScore();
+        }
+
+        File file = new File(dirPath + "src" + File.separator + "com" + File.separator + 
+                             "company" + File.separator + "text.txt");
+        // Create Scanner which reads from file
+        scanner = new Scanner(file);
+
+        // Read a paragraph from a text file
+        String paragraph = "";
+        while(scanner.hasNextLine()) {   
+            paragraph = paragraph + scanner.nextLine() + " ";
+        }
+        paragraph = paragraph.trim();
+
+        scanner.close();
+
+        // Translate paragraph from text file into simpler sentence
+        System.out.println(lazyBook.simplifier(paragraph, min, max));
     }
 
     /**
@@ -148,7 +208,7 @@ public class LazyReader {
         } else {
             simpleSentence = simpleSentence + wordTokens[0];
         }
-        System.out.printf("|%s|, |%s|\n", tokenTags[0], wordTokens[0]);
+        // System.out.printf("|%s|, |%s|\n", tokenTags[0], wordTokens[0]);
         // Find synonyms and replace for the rest of the words in the sentence
         for(int i = 1; i < whichToSimplify.length; i++) {
             if(whichToSimplify[i] != null) {
@@ -176,7 +236,7 @@ public class LazyReader {
                 simpleSentence = simpleSentence + " " + wordTokens[i];
             }
 
-            System.out.printf("|%s|, |%s|\n", tokenTags[i], wordTokens[i]);
+            //System.out.printf("|%s|, |%s|\n", tokenTags[i], wordTokens[i]);
         }
 
         return simpleSentence;
