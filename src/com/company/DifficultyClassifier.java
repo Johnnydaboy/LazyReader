@@ -38,7 +38,7 @@ public class DifficultyClassifier {
         if (containers < 3) {
             throw new Exception("Container Error: Number of containers must be at least 2.");
         }
-        // Global container constant set to container value.
+        // Container constant set to container value.
         numberOfContainers = containers;
 
         // Subtract one from containers, largest container value reserved for words not in mostFreqWords.txt 
@@ -76,7 +76,6 @@ public class DifficultyClassifier {
         for(int i = 0; i < containers; i++){
             for (int v = levelCount[i]; v > 0; v--){
                 String next = sc.nextLine();
-                //System.out.printf("|| lvl count: %d, %s ||", i, next);
                 classifiedWords.put(next, i + 1);
             }
         }

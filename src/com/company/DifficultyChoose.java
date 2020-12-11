@@ -29,7 +29,7 @@ public class DifficultyChoose {
                 } else {
                     System.out.println("Incorrect input, please type in an integer.");
                     // swallow the token if not int
-                    String temp = input.next();
+                    input.next();
                 }
             }
 
@@ -49,7 +49,7 @@ public class DifficultyChoose {
                 } else {
                     System.out.println("Incorrect input, please type in an integer.");
                     // swallot the token if not int
-                    String temp = input.next();
+                    input.next();
                 }
             }
 
