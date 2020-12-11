@@ -12,23 +12,25 @@ Welcome to the LazyReader. Here is a guideline to help you get started with it.
 
 Step 1: Clone the github repository
 
+Type the following command into your git terminal: 
+
 $ git clone https://github.com/Johnnydaboy/LazyReader.git
 
-![alt text]()
+![alt text](https://github.com/Johnnydaboy/LazyReader/blob/dev/pictures/Getting%20Started/git%20clone.PNG?raw=true)
 
 Step 2: Enter the LazyReader repository 
 
-![alt text]()
+![alt text](https://github.com/Johnnydaboy/LazyReader/blob/dev/pictures/Getting%20Started/change%20dir%20to%20the%20repo.PNG?raw=true)
 
 Step 3: Open IDE of choice at the LazyReader repository
 
-![alt text]()
+![alt text](https://github.com/Johnnydaboy/LazyReader/blob/dev/pictures/Getting%20Started/open%20IDE%20of%20choice%20(VS%20code%20in%20my%20case).PNG?raw=true)
 
-wait until the project is fully detected by the IDE
+*note wait until the project is fully detected by the IDE
 
 Step 4: run main method in LazyReader.java and have fun!
 
-![alt text]()
+![alt text](https://github.com/Johnnydaboy/LazyReader/blob/dev/pictures/Getting%20Started/run%20main%20method.PNG?raw=true)
 
 
 ## Possible troubleshooting
@@ -40,7 +42,8 @@ Problem 1: package com.company not detected
 
 Problem 2: LazyReader won't start
 
-    a) make sure your set the source file correctly and make sure you opened the proejct on /LazyReader (not one directory above or below)
+    a)  make sure your set the source file correctly and make sure you opened the project on 
+        /LazyReader (not one directory above or below)
     b) JDK 11 or above must be installed for the extensions to work
 
 Problem 3: Packages not detected
@@ -51,8 +54,8 @@ Problem 3: Packages not detected
             - ) Add edu.mit.jwi_2.4.0_jdk.jar
             - ) Add evo-inflector-1.2.2.jar
     b) restart your IDE after adding the dependencies if it still doesn't work after adding
-    
-    *Dependency Management can be found in the gif below as well as in our quick start guide
+
+    *Dependency Management for VS code can be found in the gif below as well as in our quick start guide
 
 ## Dependency Management
 
