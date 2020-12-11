@@ -1,6 +1,10 @@
 # LazyReader
 Ever wanted to make a book easier to read? Well with lazy reader, now you can!
 
+## Quick Start Guide and Overview Video
+
+A quick start guide, troubleshooting tips, and a demo of the working program can be found [here](https://youtu.be/LbDbAqgzuek). 
+
 ## Getting Started
 
 Welcome to the VS Code Java world. Here is a guideline to help you get started to write Java code in Visual Studio Code.
@@ -46,5 +50,3 @@ Load the .txt file of the data of frequency of words.
 ![alt text](https://github.com/Johnnydaboy/LazyReader/blob/dev/pictures/classifyMethod.PNG?raw=true)
 
 Returns an integer representing the difficulty level of the word selected. The classification is based on an exponential formula which is also based on the specified number of containers and divide the classification categories into the desired number of containers.
-
-## User Guide Video
