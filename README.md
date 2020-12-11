@@ -65,12 +65,12 @@ The `JAVA DEPENDENCIES` view allows you to manage your dependencies. More detail
 
 The workspace contains three folders by default, where:
 
-- `src` : the folder to maintain sources
+- `src` : the folder to maintain sources (as well as the WordNet dictionary)
 - `jars`: the folder to maintain dependencies
 - `lib` : the folder to maintain various binary and text files
 
 ## Purpose of the Software
-This LazyReader program classifies words in the English vocabulary based on the frequency of the word used in everyday life based on the NGLS database. It features several libraries: MIT JWI, OpenNLP, WordNet, and Apache to retrieve and replace synonyms of nouns based on the input level of "difficulty" by the user in the given sentence. This difficulty replacement can be used to both replace words to make it simpler to understand or can be used to replace words to add variety to word choice within a sentence.
+This LazyReader program classifies words in the English vocabulary based on the frequency of the word used in everyday life based on the NGLS database. It features several libraries: MIT JWI, OpenNLP, WordNet, and Apache to retrieve and replace synonyms of nouns based on the input level of "difficulty" by the user in the given sentence. This difficulty replacement tool can be used to both replace words to make it simpler to understand or can be used to replace words to add variety to word choice within a sentence.
 
 ## Running Main
 
@@ -78,16 +78,18 @@ When you run main you will be prompted with two options:
 
     Do you want to set your own difficulty range? (y/n)
 
-![alt text](?raw=true)
+![alt text](https://github.com/Johnnydaboy/LazyReader/blob/dev/pictures/Getting%20Started/gif/running/runningMain.gif?raw=true)
 
 Choosing y will allow you to pick 2 numbers (min and max) to set as the difficulty for your sentence translation
 
-![alt text](?raw=true)
+![alt text](https://github.com/Johnnydaboy/LazyReader/blob/dev/pictures/Getting%20Started/gif/running/runningSetRange.gif?raw=true)
 
 Choosing n will create a test which based on your score will generate a range to set as the difficulty for your sentence translation
 
-![alt text](?raw=true)
+![alt text](https://github.com/Johnnydaboy/LazyReader/blob/dev/pictures/Getting%20Started/gif/running/runningTest.gif?raw=true)
 
 You can change the text which you want to translate in the file text.txt which is located in LazyReader/src/com/company/text.txt
+The translated sentence will then be outputted to the console.
 
-![alt text](?raw=true)
+![alt text](https://github.com/Johnnydaboy/LazyReader/blob/dev/pictures/Getting%20Started/gif/running/text.PNG?raw=true)
+![alt text](https://github.com/Johnnydaboy/LazyReader/blob/dev/pictures/Getting%20Started/gif/running/changingtext.gif?raw=true)
