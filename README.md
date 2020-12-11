@@ -1,6 +1,10 @@
 # LazyReader
 Ever wanted to make a book easier to read? Well with lazy reader, now you can!
 
+## Quick Start and Overview Video
+
+A quick start guide, troubleshooting tips, and a demo of the working program can be found [here](https://youtu.be/LbDbAqgzuek). 
+
 ## Getting Started
 
 Welcome to the VS Code Java world. Here is a guideline to help you get started to write Java code in Visual Studio Code.
