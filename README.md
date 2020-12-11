@@ -16,21 +16,21 @@ Type the following command into your git terminal:
 
 $ git clone https://github.com/Johnnydaboy/LazyReader.git
 
-![alt text](https://github.com/Johnnydaboy/LazyReader/blob/dev/pictures/Getting%20Started/git%20clone.PNG?raw=true)
+![alt text](https://github.com/Johnnydaboy/LazyReader/blob/dev/pictures/Getting%20Started/gif/gitclone.gif?raw=true)
 
 Step 2: Enter the LazyReader repository 
 
-![alt text](https://github.com/Johnnydaboy/LazyReader/blob/dev/pictures/Getting%20Started/change%20dir%20to%20the%20repo.PNG?raw=true)
+![alt text](https://github.com/Johnnydaboy/LazyReader/blob/dev/pictures/Getting%20Started/gif/cdLazyReader.gif?raw=true)
 
 Step 3: Open IDE of choice at the LazyReader repository
 
-![alt text](https://github.com/Johnnydaboy/LazyReader/blob/dev/pictures/Getting%20Started/open%20IDE%20of%20choice%20(VS%20code%20in%20my%20case).PNG?raw=true)
+![alt text](https://github.com/Johnnydaboy/LazyReader/blob/dev/pictures/Getting%20Started/gif/openIDE.gif?raw=true)
 
 *note wait until the project is fully detected by the IDE
 
 Step 4: run main method in LazyReader.java and have fun!
 
-![alt text](https://github.com/Johnnydaboy/LazyReader/blob/dev/pictures/Getting%20Started/run%20main%20method.PNG?raw=true)
+![alt text](?raw=true)
 
 
 ## Possible troubleshooting
